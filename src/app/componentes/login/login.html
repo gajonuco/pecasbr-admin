@@ -1,0 +1,21 @@
+    <div id= "background">
+        <main class="form-signin w-100 m-auto">
+      <div class= "d-flex justify-content-center mb-3">
+                    <img id="imagem" class= "d-flex justify-content-center" src="logo_autopecas.png"  alt="" w height="57">
+                </div>
+            <p class="h4 mb-3 fw-normal text-center" >Área Administrativa</p>
+
+            <div class="form-floating"> 
+                <input type="text" class="form-control" id="floatingInput" [(ngModel)] = "usuario.username">
+                 <label for="floatingInput">Seu login</label>
+            </div>
+
+            <div class="form-floating">
+                 <input type="password" class="form-control" id="floatingPassword"placeholder="Password" [(ngModel)] = "usuario.senha">
+                  <label for="floatingPassword">Sua senha</label>
+            </div>
+            <button class="btn btn-primary w-100 py-2" (click)="autenticar()">Conectar-se</button>
+        
+    </main>
+
+    </div>
