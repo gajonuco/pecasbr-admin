@@ -7,7 +7,9 @@
 
 <div class ="row">
     <div class = "col-12">
-        <button class="btn btn-primary">+ Nova Categoria</button>
+        <button class="btn btn-primary" [routerLink]="['/main/editor-categoria', 'new']">
+        Nova Categoria
+        </button>
     </div>
 </div>
 <table class="table table-hover">
@@ -18,10 +20,15 @@
         </tr>
     </thead>
     <tbody>
+        @for(ITEM of lista; track lista){
         <tr>
-            <th scope="row"></th>
-            <td>NOME DA CATEGORIA</td>
-        </tr>
+            <th scope="row">{{ITEM.id}}</th>
+            <td>
+                <a [routerLink]="['/main/editor-categoria', ITEM.id]">{{ITEM.nome}}</a>
+            </td>
+        </tr> 
+        }
+
     </tbody>
 </table>
 

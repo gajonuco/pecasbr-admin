@@ -13,4 +13,14 @@ export class CategoriaServico {
     public getAllCategoriasPecas(): Observable<CategoriaPeca[]>{
       return this.http.get<CategoriaPeca[]>("http://localhost:8080/categoria_peca");
     }
+
+   
+    public getById(id: number): Observable<CategoriaPeca>{
+      let token: string = localStorage.getItem("Token") ?? '';
+
+      let header = {
+        'Authorization':token
+      }
+      return this.http.get<CategoriaPeca>("http://localhost:8080/categoria_peca"+ id, {headers: header});
+    }
 }

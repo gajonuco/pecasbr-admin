@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriaServico } from '../../servicos/categoria-servico';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CategoriaPeca } from '../../model/CategoriaPeca';
 
 @Component({
   selector: 'app-categorias',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './categorias.html',
   styleUrl: './categorias.css'
 })
