@@ -19,6 +19,7 @@
     <li class="sidenav-nav-item" *ngFor="let item of items">
       <a
         class="sidenav-nav-link"
+        (click)="onMenuClick(item)"
         [routerLink]="item.routeLink"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"

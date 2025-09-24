@@ -1,0 +1,135 @@
+<!-- Toast fixo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast"
+       class="toast align-items-center text-white border-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error'
+       }">
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ mensagemToast }}
+      </div>
+      <button type="button"
+              class="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class = "row">
+        <div class="col-12 text-center">
+            <h3>Editor de Produtos</h3>
+        </div>
+    </div>
+
+    @if(mode == 0){
+    <div class = "row">
+        <div class="col-12">
+            <p>Inserindo novo Produto</p>
+        </div>
+    </div>
+    }
+
+    <div class = "row">
+        <label for="formFile" class="form-label">Selecione a foto do Produto</label>
+        <div class="mb-3 input-group">
+
+            <input class="form-control" type="file" id="formFile" (change)="selectFile($event)" />
+
+            <button type="button" class ="btn btn-primary" (click)="uploadFoto()">Enviar</button>
+        </div>
+    </div>
+       <div class = "row" id="divFoto">
+            <div class="col-4">
+                @if (peca.linkFoto) {
+                    <img [src]="peca.linkFoto" class="img-fluid">
+                } @else {
+                    <h4 class="text-center mt-2">Foto da Peça</h4>
+                }
+            </div>
+       </div>
+
+
+    <div class = "row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="txtNomeProduto" class="form-label">Nome do Produto</label>
+                <input type="text" class="form-control" id ="txtNome" [(ngModel)]= "peca.nome">
+            </div>  
+        </div>
+    </div>
+    <div class = "row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="txtDetalheProduto" class="form-label">Detalhamento do Produto</label>
+                <input type="text" class="form-control" id ="txtDetalhe" [(ngModel)]= "peca.detalhe">
+            </div>  
+        </div>
+    </div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="mb-3">
+      <label for="txtCategoria" class="form-label">Categoria</label>
+
+      <select id="txtCategoria"
+              class="form-control"
+              [(ngModel)]="peca.categoriaPeca">
+        @for(CATEG of listaCategorias; track CATEG.id) {
+          <option [ngValue]="CATEG">{{ CATEG.nome }}</option>
+        }
+      </select>
+    </div>
+  </div>
+</div>
+
+
+
+    <div class = "row">
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="txtNomePreço" class="form-label">Preço</label>
+                <input type="text" class="form-control" id ="txtPreço" [(ngModel)]= "peca.preco">
+            </div>  
+        </div>
+        
+        <div class="col-4">
+            <div class="mt-2">
+            <label class="form-check-label" for="checkDefault">Disponível</label>
+            <div class=" form-control text-center">
+                <input class="form-check-input" type="checkbox" value="1" id="chcekDisponibiliza" [(ngModel)]= "peca.disponivel">
+            </div>
+            </div>  
+        </div>
+
+        <div class="col-4">
+            <div class="mt-2">
+            <label class="form-check-label" for="checkChecked">Destaque</label>
+            <div class="form-control text-center">
+                <input class="form-check-input" type="checkbox"id="checkDestaque" value="1" [(ngModel)]= "peca.destaque" checked>
+            </div>
+            </div>  
+        </div>
+    </div>
+
+
+
+    <div class = "row">
+        <div class="col-6">
+            <button class="btn btn-primary" (click)= "atualizarProduto()">Atualizar dados</button>
+        </div>
+        <div class = "col-6">
+            <button class= "btn btn-primary" [routerLink]="['/main/produtos']">Voltar</button>
+        </div>
+    </div>
+
+</div>

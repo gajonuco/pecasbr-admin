@@ -42,4 +42,45 @@ export class EditorCategoria {
       })
     }
   }
+
+  public atualizarCategoria(){
+    if(this.mode == 0){
+      this.categoria = Object.assign(new CategoriaPeca(), this.categoria);
+      this.service.incluirNovaCategoria(this.categoria)
+        .subscribe({
+          next: (res: CategoriaPeca) => {
+            alert("Categoria cadastrada com sucesso!")
+            this.router.navigate(['main/categorias'])
+          },
+          error: (err) => {
+            if(err.status == 400){
+              alert("Valores inválidos para a categoria")
+            }
+            else{
+              localStorage.removeItem("Token")
+              this.router.navigate([''])
+            }
+          }
+        })
+      }else{
+        this.service.atualizarCategoria(this.categoria)
+        .subscribe({
+          next: (res: CategoriaPeca) => {
+            alert("Categoria atualizada com sucesso!")
+            this.router.navigate(['main/categorias'])
+          },
+          error: (err) => {
+            if(err.status == 400){
+              alert("Valores inválidos para a categoria")
+            }
+            else{
+              localStorage.removeItem("Token")
+              this.router.navigate([''])
+            }
+          }
+        })
+
+      }
+
+  }
 }

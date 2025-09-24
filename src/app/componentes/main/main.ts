@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit, signal } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -10,6 +10,12 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 })
 export class Main implements OnInit {
 
+  
+
+constructor( private router:Router){}
+
+
+
   skipAnimation = true; // começa sem animação (útil para rotas iniciais)
   isLeftSidebarCollapsed = signal<boolean>(true);
   screenWidth = signal<number>(window.innerWidth);
@@ -17,12 +23,14 @@ export class Main implements OnInit {
   items = [
     { routeLink: 'dashboard', icon: 'fas fa-home', label: 'Dashboard' },
     { routeLink: 'categorias', icon: 'fas fa-list-ul', label: 'Categorias' },
-    { routeLink:'pecas', icon: 'fas fa-box-open', label: 'Produtos' },
+    { routeLink:'produtos', icon: 'fas fa-box-open', label: 'Produtos' },
     { routeLink:'relatorios', icon: 'fas fa-chart-pie', label: 'Relatórios' },
+    { routeLink:'pedidos', icon: 'fas fa-clipboard', label: 'Pedidos' },
     { routeLink: 'users', icon: 'fas fa-users', label: 'Usuários' },
     { routeLink: 'settings', icon: 'fas fa-key', label: 'Configurações' },
-    { routeLink: 'logout', icon: 'fas fa-sign-out-alt', label: 'Sair' }
+    { routeLink: 'logout', icon: 'fas fa-sign-out-alt', label: 'Sair'}
   ];
+
 
   @HostListener('window:resize')
   onResize() {
@@ -31,6 +39,8 @@ export class Main implements OnInit {
       this.isLeftSidebarCollapsed.set(true);
     }
   }
+
+    
 
   ngOnInit(): void {
     if (this.screenWidth() < 768) {
@@ -48,6 +58,13 @@ export class Main implements OnInit {
 
   toggleCollapse(): void {
     this.isLeftSidebarCollapsed.set(!this.isLeftSidebarCollapsed());
+  }
+
+  onMenuClick(item: any): void {
+    if (item.routeLink === 'logout') {
+      localStorage.removeItem('Token');
+      this.router.navigate(['']);
+    }
   }
 
   closeSidenav(): void {
