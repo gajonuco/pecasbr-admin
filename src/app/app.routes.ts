@@ -27,7 +27,7 @@ export const routes: Routes = [
       { path: 'clientes', component: Clientes},
       { path: 'editor-produto/:id', component: EditorProduto },
       { path: 'usuarios', component: Usuarios },
-      {path: 'editor-usuario/:id', component: EditorUsuario}
+      {path: 'editor-usuario/:id', component: EditorUsuario},
       
 
       // aqui você adiciona também pages, settings etc
