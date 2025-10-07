@@ -1,0 +1,140 @@
+
+<!-- Toast fixo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast"
+       class="toast align-items-center text-white border-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error'
+       }">
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ mensagemToast }}
+      </div>
+      <button type="button"
+              class="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade " id="detalhePedido" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content modal-dialog-scrollable">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Detalhe do pedido {{detalhe.id}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6>{{detalhe.cliente.nome}}</h6>
+        <strong>TOTAL:</strong>{{detalhe.valorTotal | currency: 'BRL' }}
+        <p><strong>Endereço:</strong> {{detalhe.cliente.logradouro}} - {{detalhe.cliente.numero}}<br>
+            {{detalhe.cliente.bairro}} - {{detalhe.cliente.cidade}} - {{detalhe.cliente.cep}} 
+        </p>
+        <strong>Observações:</strong>{{detalhe.observacoes}}
+        <hr>
+        <h6>Itens</h6>
+        <table>
+            <thead>
+                <th scope="col">Foto</th>
+                <th scope="col">Produto</th>
+                <th scope="col">Valor Unitário</th>
+                <th scope="col">Quant</th>
+                <th scope="col">Valor Total</th>
+           </thead>
+           <tbody>
+
+         @for(item of detalhe.itensPedido; track detalhe) {
+            <hr> 
+            <tr>
+                <td> <img src="{{item.peca.linkFoto}}" height="50px"></td>
+                <td>{{item.peca.nome}}</td>
+                <td>{{item.precoUnitario | currency: 'BRL'}}</td>
+                <td>{{item.qtdtItem}}</td>
+                <td>{{item.precoTotal | currency: 'BRL'}}</td>
+            </tr>
+            }
+           </tbody>
+        </table>
+
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Button trigger modal -->
+    <button type="button" id="btnModal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detalhePedido">
+    Launch demo modal
+    </button>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Lista de Pedidos</h3>
+        </div>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Data</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Total R$</th>
+                <th scope="col">Observações</th>
+                <th scope="col">Status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @for(ITEM of lista; track lista){
+            <tr>
+                <td>{{ITEM.id}}<i class="fas fa-info-circle" (click)="enviarDetalhes(ITEM)"></i></td>
+                <td>{{ITEM.dataPedido | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ITEM.cliente.nome}}</td>
+                <td ><strong>{{ITEM.valorTotal | currency: 'BRL'}}</strong></td>
+                <td>{{ITEM.observacoes}}</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        
+                        <input type="radio" class="btn-check" name="btnradio-{{ITEM.id}}"
+                        id="btnradio1-{{ITEM.id}}" autocomplete="off"
+                        [checked]="ITEM.status == 1" (click)="alterarStatus(ITEM.id,1)">
+                        <label class="btn btn-outline-primary" for="btnradio1-{{ITEM.id}}">
+                        <i class="fas fa-dollar-sign"></i>
+                        </label>
+
+                        <input type="radio" class="btn-check" name="btnradio-{{ITEM.id}}"
+                        id="btnradio2-{{ITEM.id}}" autocomplete="off"
+                        [checked]="ITEM.status == 2"(click)="alterarStatus(ITEM.id,2)" >
+                        <label class="btn btn-outline-primary" for="btnradio2-{{ITEM.id}}">
+                        <i class="fas fa-truck"></i>
+                        </label>
+
+                        <input type="radio" class="btn-check" name="btnradio-{{ITEM.id}}"
+                        id="btnradio3-{{ITEM.id}}" autocomplete="off"
+                        [checked]="ITEM.status == 3" (click)="alterarStatus(ITEM.id,3)">
+                        <label class="btn btn-outline-primary" for="btnradio3-{{ITEM.id}}">
+                        <i class="fas fa-window-close"></i>
+                        </label>
+
+                    </div>
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

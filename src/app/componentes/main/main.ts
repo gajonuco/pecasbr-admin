@@ -26,8 +26,8 @@ constructor( private router:Router){}
     { routeLink:'produtos', icon: 'fas fa-box-open', label: 'Produtos' },
     { routeLink:'relatorios', icon: 'fas fa-chart-pie', label: 'Relatórios' },
     { routeLink:'pedidos', icon: 'fas fa-clipboard', label: 'Pedidos' },
-    { routeLink: 'users', icon: 'fas fa-users', label: 'Usuários' },
-    { routeLink: 'settings', icon: 'fas fa-key', label: 'Configurações' },
+    { routeLink: 'clientes', icon: 'fas fa-users', label: 'Clientes' },
+    { routeLink: 'usuarios', icon: 'fas fa-key', label: 'Usuários' },
     { routeLink: 'logout', icon: 'fas fa-sign-out-alt', label: 'Sair'}
   ];
 
