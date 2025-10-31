@@ -37,7 +37,7 @@ export class Login {
 
         setTimeout(() =>{
           this.router.navigate(['main/dashboard'])
-        }, 2000)
+        }, 1500)
 
 
       },

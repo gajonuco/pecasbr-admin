@@ -3,6 +3,8 @@ import { ProdutoServico } from '../../servicos/produto-servico';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Peca } from '../../model/Peca';
+import { ClienteServico } from '../../servicos/cliente-servico';
+import { CompradorDTO } from '../../model/CompradorDTO';
 
 @Component({
   selector: 'app-produtos',
@@ -12,8 +14,10 @@ import { Peca } from '../../model/Peca';
 })
 export class Produtos implements OnInit{
 
-  public lista: Peca[] =[]
-  constructor(private service: ProdutoServico, private router: Router){
+  public lista: Peca[] = []
+  public compradores: CompradorDTO[] = []
+  constructor(private service: ProdutoServico, private router: Router,
+                private cliService: ClienteServico){
 
   }
   ngOnInit(): void {
@@ -46,6 +50,16 @@ export class Produtos implements OnInit{
         console.log("Peca" + res)
       }
     })
+  }
+
+    public buscarCompradores(idPeca: number) {
+    this.cliService.buscarCompradores(idPeca)
+      .subscribe({
+        next: (res: CompradorDTO[]) => {
+          this.compradores = res;
+          document.getElementById("btnModal")?.click();
+        }
+      })
   }
 
 }

@@ -1,1 +1,73 @@
-<p>editor-usuario works!</p>
+    <!-- Toast fixo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast"
+       class="toast align-items-center text-white border-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error'
+       }">
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ mensagemToast }}
+      </div>
+      <button type="button"
+              class="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+    <div class = "row">
+        <div class="col-12 text-center">
+            <h3>Editar de Usuários</h3>
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="txtNome" class="form-label">Nome Completo</label>
+        <input type="text" class="form-control" id ="txtNome" maxlength="50" [(ngModel)] = "usuario.nome_usuario">
+    </div>  
+
+    <div class="mb-3">
+        <label for="txtEmail" class="form-label">E-mail</label>
+        <input type="text" class="form-control" id ="txtEmail" maxlength="50" (keyup)="sugereUsername()" [(ngModel)] = "usuario.email">
+    </div>  
+
+    <div class="mb-3">
+        <label for="txtUsername" class="form-label">Username</label>
+        <input type="text" class="form-control" id ="txtUsername" maxlength="50" [(ngModel)] = "usuario.username">
+    </div>  
+
+    <div class="row mb-4">
+        <div class = "col-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+            <label for="txtSenha" class="form-label">Senha</label>
+            <input type="password" class="form-control" id ="txtSenha" maxlength="50" [(ngModel)] = "usuario.senha">
+        </div>
+        <div class = "col-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+            <label for="txtReSenha" class="form-label">Confirme a Senha</label>
+            <input type="password" class="form-control" id ="txtReSenha" maxlength="50" [(ngModel)] = "senha" (keyup)="confereSenha()">
+        </div>
+    </div>
+
+    @if(mode == 1){
+    <div class = "row mb-3">
+        <div class="col-12 text-center">
+            <h4 style="color: red;">Senhas não conferem!</h4>
+        </div>
+    </div>
+    }
+
+    <div class = "row">
+        <div class="col-12 text-center">
+            <button class = "btn btn-primary" (click) = "atualizarUsuario()">Atualizar Dados</button>
+        </div>
+     </div>
+</div>
+

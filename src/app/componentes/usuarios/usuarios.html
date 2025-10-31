@@ -50,7 +50,7 @@
             @for(USER of lista; track lista){
               <tr>
                 <td scope="row"><a>{{USER.id}}</a></td>
-                <td><a>{{USER.nome_usuario}}</a></td>
+                <td><a class = "nav-link" [routerLink]="['/main/editor-usuario', USER.id]">{{USER.nome_usuario}}</a></td>
                 <td><a>{{USER.username}}</a></td>
                 <td><a>{{USER.email}}</a></td>
                 <td>

@@ -1,0 +1,38 @@
+<div id="pedidosGeral">
+    <h4>Últimos de Pedidos {{ total | currency: 'BRL'}}</h4>
+      <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Data</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Total R$</th>
+            </tr>
+        </thead>
+        <tbody>
+          @for(ITEM of lista; track ITEM.id){
+            <tr>
+                <td>{{ITEM.id}}</td>
+                <td>{{ITEM.dataPedido | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ITEM.cliente.nome}}</td>
+                <td>{{ITEM.valorTotal | currency: 'BRL'}}</td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h4>Total de Pedidos Pagos: {{totalPago | currency : 'BRL'}} </h4>
+        </div>
+        <div class="col-12">
+            <h4>Total de Pedidos Cancelados: {{totalCancelado | currency : 'BRL'}}</h4>
+        </div>
+        <div class="col-12">
+            <h4>Total de Pedidos Pendentes/Novos: {{totalPendentes | currency : 'BRL'}}</h4>
+        </div>
+    </div>
+</div>

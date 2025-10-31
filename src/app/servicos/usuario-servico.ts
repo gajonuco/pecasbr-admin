@@ -25,4 +25,20 @@ export class UsuarioServico {
   
           return this.http.put<Usuario>("http://localhost:8080/usuario/"+ usuario.id, usuario, {headers: header});
       }
+
+      public adicionarUsuario(usuario:Usuario): Observable<Usuario>{
+      
+        let token: string = localStorage.getItem("Token") ?? '';
+        let header = {'Authorization':token}
+
+          return this.http.post<Usuario>("http://localhost:8080/usuario", usuario, {headers: header});
+    } 
+
+    public recuperarPeloId(id: number): Observable<Usuario>{
+      
+        let token: string = localStorage.getItem("Token") ?? '';
+        let header = {'Authorization':token}
+
+          return this.http.get<Usuario>("http://localhost:8080/usuario/"+ id, {headers: header});
+    } 
 }

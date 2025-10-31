@@ -62,7 +62,7 @@ export class Clientes {
     )
   }
 
-    public buscarPorPalavraChave(){
+  public buscarPorPalavraChave(){
       this.router.navigate(['clientes'], {queryParams:{keyword : this.keyword}})
   }
 

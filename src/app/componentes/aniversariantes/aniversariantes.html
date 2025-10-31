@@ -1,0 +1,42 @@
+<div id="divGeral">
+    <h4>Aniversariantes</h4>
+    <div id="aniversariantes">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary" (click)="aniv(1)">Jan</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(2)">Fev</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(3)">Mar</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(4)">Abr</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(5)">Mai</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(6)">Jun</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(7)">Jul</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(8)">Ago</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(9)">Set</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(10)">Out</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(11)">Nov</button>
+        <button type="button" class="btn btn-primary" (click)="aniv(12)">Dez</button>
+
+    </div>
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col">Nome</th>
+                    <th class="col">Data</th>
+                    <th class="col">WhatsApp</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(ITEM of lista; track ITEM.id){
+                    <tr>
+                        <td>{{ITEM.nome}}</td>
+                        <td>{{ITEM.dataNasc| date: 'dd/MM/yyyy'}}</td>
+                        <td>{{ITEM.telefone}}</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
