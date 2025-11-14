@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Usuario } from '../../model/Usuario';
 import { FormsModule } from '@angular/forms';
-import { UsuarioServico } from '../../servicos/usuario-servico';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UsuarioServico } from '../../servicos/usuario-servico';
 declare var bootstrap: any;
 
 @Component({

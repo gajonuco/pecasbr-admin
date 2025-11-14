@@ -1,8 +1,5 @@
-import { bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-import { routes } from './app/app.routes';
+
+
 
 import {
   Chart,
@@ -57,8 +54,9 @@ Chart.register(
   Tooltip
 );
 
-bootstrapApplication(App, {
-  providers: [
-    provideHttpClient(), provideRouter(routes) // ✅ Isso ativa o HttpClient para sua app
-  ]
-});
+import { bootstrapApplication } from '@angular/platform-browser';
+import { App } from './app/app';
+import { appConfig } from './app/app.config'; // ✅ importa a config com o interceptor
+
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err));

@@ -5,8 +5,12 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Cliente } from '../../model/Cliente';
 import { FiltroPedidoDTO } from '../../model/FiltroPedidoDTO';
 import { FormsModule } from '@angular/forms';
-import { ClienteServico } from '../../servicos/cliente-servico';
-import { CompradorDTO } from '../../model/CompradorDTO';
+import { StatusPedido } from '../../model/StatusPedido';
+import { FormapagamentoService } from '../../servicos/formapagamento-service';
+import { RegistroFinanceiro } from '../../model/RegistroFinanceiro';
+import { Router } from '@angular/router';
+import { FormaPagamento } from '../../model/FormaPagamento';
+import { RegistroFinanceiroService } from '../../servicos/registro-financeiro-service';
 declare var bootstrap: any;
 @Component({
   selector: 'app-pedidos',
@@ -20,29 +24,47 @@ export class Pedidos {
   public toastType!: string;
   public detalhe: Pedido = new Pedido();
   public filtroPedidoDTO: FiltroPedidoDTO = new FiltroPedidoDTO();
-
+  public registroFinanceiro!: RegistroFinanceiro
+  public total!: number;
+  public formasPgto!: FormaPagamento[]
   public lista : Pedido[]=[]
-  constructor(private service: PedidosServico
+  constructor(
+    private service: PedidosServico,
+    private fpservice: FormapagamentoService,
+    private rfservice: RegistroFinanceiroService,
+    private router: Router
   ){
     this.detalhe.cliente = new Cliente()
+    this.registroFinanceiro = new RegistroFinanceiro();
+ 
+
+    
     this.service.getAllPedidos(this.filtroPedidoDTO)
     .subscribe({
       next : (res: Pedido[]) => {
-        this.lista = res}
+        this.lista = res,
+        this.lista.forEach(item => { this.total += item.valorTotal})
+      },
+      error: (err) => {
+        if(err.status == 403){
+          localStorage.removeItem("Token");
+          this.router.navigate(["/"], { queryParams: { src: "expired"}})
+        }
+      }
     })
 
   }
 
-  public alterarStatus(idPedido:number, status:number){
-    this.service.alterarStatus(idPedido, status).
+  public alterarStatus(pedido: Pedido, status:number){
+    this.service.alterarStatus(pedido, status).
       subscribe({
         next: (res:Pedido) => {
-          this.mensagemToast = "Status alterado com sucesso!"
+          this.mensagemToast = "Status do pedido alterado!"
           this.toastType = 'success'
           this.mostrarToast();
           },
          error: (err) => {
-          this.mensagemToast = "ERRO ao inserir o produto"
+          this.mensagemToast = "ERRO ao alterar o status do pedido"
           this.toastType = 'error';
           this.mostrarToast();
         }
@@ -65,15 +87,20 @@ export class Pedidos {
   }
 
   public filtrarPedidos(){
-    this.filtroPedidoDTO.cancelado = (this.filtroPedidoDTO.cancelado)?3:0;
-    this.filtroPedidoDTO.pago = (this.filtroPedidoDTO.pago)?1:0;
-    this.filtroPedidoDTO.entregue = (this.filtroPedidoDTO.entregue)?2:0
+    this.filtroPedidoDTO.novo = (this.filtroPedidoDTO.novo) ? StatusPedido.NOVO_PEDIDO :0;
+    this.filtroPedidoDTO.pago = (this.filtroPedidoDTO.pago) ? StatusPedido.PAGO:0;
+    this.filtroPedidoDTO.transporte = (this.filtroPedidoDTO.transporte) ? StatusPedido.EM_TRANSPORTE:0
+    this.filtroPedidoDTO.entregue = (this.filtroPedidoDTO.entregue) ? StatusPedido.ENTREGUE:0;
+    this.filtroPedidoDTO.posVenda = (this.filtroPedidoDTO.posVenda) ? StatusPedido.POS_VENDA:0;
+    this.filtroPedidoDTO.finalizado = (this.filtroPedidoDTO.finalizado) ? StatusPedido.FINALIZDO:0
+    this.filtroPedidoDTO.cancelado = (this.filtroPedidoDTO.cancelado) ? StatusPedido.CANCELADO:0
+
 
     this.service.getAllPedidos(this.filtroPedidoDTO)
       .subscribe({
-        next: (res: Pedido[]) => {
-          console.log(res);
-          this.lista = res;
+      next : (res: Pedido[]) => {
+        this.lista = res,
+        this.lista.forEach(item => { this.total += item.valorTotal})
         }
       })
   }
@@ -82,7 +109,40 @@ export class Pedidos {
     this.filtroPedidoDTO = new FiltroPedidoDTO();
   }
 
+ public gerarFinanceiro(pedido: Pedido, status: number) {
+    /* abrir o modal para criarmos o fluxo financeiro do nosso sistema*/
+    this.alterarStatus(pedido, 2);
+    this.fpservice.recuperarTodasFormasPgto().subscribe(
+      (res: FormaPagamento[]) => {
+        this.formasPgto = res;
+        this.detalhe = pedido;
+        this.registroFinanceiro.diaVencimento = 1;
+        this.registroFinanceiro.totalParcelas = 1;
+        this.registroFinanceiro.pedido = pedido;
+        document.getElementById("btnModalFinanceiro")?.click();
+      }
+    )
+  }
 
+    public gerarFluxo() { /* método criado para economizar o acesso ao banco*/
+    let forma: FormaPagamento;
+    for (let i =0; i<this.formasPgto.length; i++){
+      if (this.registroFinanceiro.formaPagamento.numSeq == this.formasPgto[i].numSeq){
+        this.registroFinanceiro.formaPagamento = this.formasPgto[i];
+        break;
+      }
+    }
+    this.rfservice.gerarRegistroFinanceiro(this.registroFinanceiro).subscribe({
+      next: (res: RegistroFinanceiro) =>  console.log(this.registroFinanceiro)
 
+    })
+
+  }
+
+  public atualizarPedido(){
+     this.service.atualizarPedido(this.detalhe).subscribe({
+
+     })
+  }
 
 }

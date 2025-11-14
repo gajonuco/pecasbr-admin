@@ -21,6 +21,7 @@
                 <th scope="col">Preço</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Disponível</th>
+                <th scope="col">Pronta Entrega</th>
                 <th scope="col">Em Destaque</th>
                 <th scope="col">Compradores</th>
 
@@ -41,7 +42,13 @@
                 <td><a>{{ITEM.categoriaPeca.nome}}</a></td>
                 <td>
                 <div class="d-flex justify-content-center form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="chcekDisponibiliza" [(ngModel)] ="ITEM.disponivel" (change) ="disponibiliza(ITEM)" >
+                    <input class="form-check-input" type="checkbox" role="switch" id="checkDisponibiliza" [(ngModel)] ="ITEM.disponivel" (change) ="disponibiliza(ITEM)" >
+                    <label class="form-check-label" for="switchCheckChecked"></label>
+                </div>
+                </td>
+                <td>
+                <div class="d-flex justify-content-center form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="checkProntaEntrega" [(ngModel)] ="ITEM.prontaEntrega" (change) ="prontaEntrega(ITEM)" >
                     <label class="form-check-label" for="switchCheckChecked"></label>
                 </div>
                 </td>

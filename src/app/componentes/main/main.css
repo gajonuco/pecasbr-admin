@@ -23,6 +23,7 @@
   padding: 0.938rem 0.938rem 0 0.938rem;
   width: 100%;
 }
+
 .sidenav .logo-container .logo {
   background: #fff;
   text-align: center;
@@ -35,12 +36,14 @@
   cursor: pointer;
   border: none;
 }
+
 .sidenav .logo-container .logo-text {
   margin-left: 1.5rem;
   font-size: 24px;
   font-weight: 700;
   color: #fff;
 }
+
 .sidenav .logo-container .btn-close {
   margin-left: auto;
   cursor: pointer;
@@ -50,6 +53,7 @@
   background-color: transparent;
   border: none;
 }
+
 .sidenav .logo-container .btn-close .fa-times {
   color: #fff;
   font-size: 24px;
@@ -65,32 +69,60 @@
   height: calc(100% - 3.65rem);
   cursor: pointer;
 }
+
 .sidenav-nav .sidenav-nav-item {
   width: 100%;
   margin-bottom: 0.625rem;
 }
+
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 3rem;
   color: #f3f3f3;
   text-decoration: none;
   border-radius: 0.625rem;
   transition: all 0.3s ease;
+  gap: 1rem;
 }
-.sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon {
-  font-size: 22px;
-  width: 2rem;
-  min-width: 2rem;
-  text-align: center;
-  padding: 12px;
+
+/* Expandido → ícones e textos alinhados à esquerda */
+.sidenav:not(.sidenav-collapsed) .sidenav-nav-link {
+  justify-content: flex-start;
+  padding-left: 1rem;
 }
-.sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text {
-  margin-left: 1.5rem;
-}
+
 .sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {
   background-color: #fff;
   color: #000;
+}
+
+/* Ícones */
+.sidenav-nav .sidenav-nav-link .sidenav-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  padding: 0;
+}
+
+/* Textos */
+.sidenav-nav .sidenav-nav-link .sidenav-link-text {
+  margin-left: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Colapsado → texto some, ícones centralizam */
+.sidenav-collapsed .sidenav-nav-link {
+  justify-content: center;
+}
+
+.sidenav-collapsed .sidenav-link-text {
+  display: none;
 }
 
 .fal.fa-bars {
@@ -100,6 +132,7 @@
 .fal.fa-bars.rotated {
   transform: rotate(90deg);
 }
+
 .body {
   transition: margin-left 0.5s ease;
   padding-left: 7rem;
@@ -109,10 +142,10 @@
 
 /* Quando a sidebar está expandida */
 .body-trimmed {
-  margin-left: 12rem; /* largura normal da sidebar */
+  margin-left: 12rem;
 }
 
 /* Quando a sidebar está colapsada */
 .body-md-screen {
-  margin-left: 5rem; /* largura da sidebar colapsada */
+  margin-left: 5rem;
 }

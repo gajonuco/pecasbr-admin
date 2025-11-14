@@ -1,7 +1,35 @@
-#divGeral{
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 1em;
-    margin-bottom: 1em;
-    box-shadow: 2px 2px 5px gray;
+#divGeral {
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 1em;
+  margin-bottom: 1em;
+  box-shadow: 2px 2px 5px gray;
+  max-width: 100%;
+  overflow-x: auto; /* Evita quebrar layout em telas pequenas */
+}
+
+/* Agrupa e distribui bem os botões */
+#aniversariantes .btn-group {
+  display: flex;
+  flex-wrap: wrap; /* Faz quebrar linha se não couber */
+  gap: 0.5em; /* Espaço entre os botões */
+  justify-content: center; /* Centraliza dentro da div */
+}
+
+/* Ajuste específico só para os botões desse componente */
+#aniversariantes .btn-primary {
+  padding: 6px 14px; /* Reduz o tamanho */
+  font-size: 0.9rem; /* Texto proporcional */
+  flex: 1 1 70px; /* Faz cada botão se ajustar ao espaço */
+  max-width: 90px; /* Limita a largura máxima */
+  white-space: nowrap; /* Evita quebra de texto */
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  #aniversariantes .btn-primary {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    max-width: 70px;
+  }
 }

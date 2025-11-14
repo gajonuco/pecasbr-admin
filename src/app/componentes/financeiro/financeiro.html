@@ -1,0 +1,105 @@
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h3>Gerenciar Fluxo Financeiro</h3>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+   <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table" id="tblFinanceiro">
+    <thead>
+      <tr>
+        <th scope="col">SEQ</th>
+        <th scope="col">Pedido</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Whatsapp</th>
+        <th scope="col">Parcela</th>
+        <th scope="col">Vencimento</th>
+        <th scope="col">Valor Bruto</th>
+        <th scope="col">Forma Pgto</th>
+        <th scope="col">Retenção</th>
+        <th scope="col">Valor Retenção</th>
+        <th scope="col">Valor a Receber</th>
+        <th scope="col">Status</th>
+        <th scope="col">Ação</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (ITEM of lista; track ITEM.numSeq) {
+        <tr>
+          <td class="text-center" scope="row">{{ ITEM.numSeq }}</td>
+          <td class="text-center">{{ ITEM.idPedido }}</td>
+          <td class="text-center">{{ ITEM.nomeCliente }}</td>
+          <td class="text-center">{{ ITEM.telefone }}</td>
+          <td class="text-center">{{ ITEM.numParcela }} de {{ ITEM.totalParcelas }}</td>
+          <td class="text-center">{{ ITEM.dataVencimento | date: 'dd/MM/yyyy' }}</td>
+          <td class="text-center">{{ ITEM.valorBruto | currency: 'BRL' }}</td>
+          <td class="text-center">{{ ITEM.idFormaPagamento }} - {{ ITEM.formaPagamento }}</td>
+          <td class="text-center">{{ ITEM.percentRetencao }} %</td>
+          <td class="text-center">{{ ITEM.valorRetencao | currency: 'BRL' }}</td>
+          <td class="text-center">{{ ITEM.valorReceber | currency: 'BRL' }}</td>
+
+          <td class="text-center">
+            @if (ITEM.status == 0) {
+              <span class="pendente">PEND</span>
+            } @else if (ITEM.status == 1) {
+              <span class="pago">PAGO</span>
+            } @else if (ITEM.status == -1) {
+              <i class="far fa-trash-alt"></i>
+            }
+          </td>
+
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-primary" (click)="alterarStatus(ITEM,1)">
+                <i class="fas fa-check-circle"></i>
+              </button>
+              <button type="button" class="btn btn-outline-primary" (click)="alterarStatus(ITEM,0)">
+                <i class="fas fa-undo"></i>
+              </button>
+              <button type="button" class="btn btn-outline-primary" (click)="alterarStatus(ITEM,-1)">
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+    <!-- Toast fixo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+<!-- No seu template HTML -->
+<div id="liveToast"
+     class="toast align-items-center border-0"
+     role="alert"
+     aria-live="assertive"
+     aria-atomic="true"
+     [ngClass]="{
+        'bg-success': toastType === 'success',
+        'bg-danger': toastType === 'error',
+        'bg-warning': toastType === 'warning',
+        'bg-info': toastType === 'info',
+        'text-white': toastType !== 'warning',
+        'text-dark': toastType === 'warning'
+     }">
+  <div class="d-flex">
+    <div class="toast-body">
+      {{ mensagemToast }}
+    </div>
+    <button type="button"
+            [ngClass]="{
+               'btn-close-white': toastType !== 'warning',
+               'btn-close': toastType === 'warning'
+            }"
+            class="me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"></button>
+  </div>
+</div>
+</div>

@@ -1,3 +1,18 @@
-#btnModal {
-  display: none;
+#btnModal{
+    visibility: hidden;
+}
+#btnModalFinanceiro{
+    visibility: hidden;
+}
+
+#btnFiltrar{
+    margin-right: 2em;
+}
+
+#sim{
+  color: BLUE;
+}
+
+#nao{
+    color: gray;
 }

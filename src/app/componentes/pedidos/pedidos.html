@@ -69,6 +69,47 @@
   Launch demo modal
 </button>
 
+<!-- modal do financeiro -->
+<div class="modal fade " id="financeiroModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Geração do Status Financeiro: Pedido
+                    #{{detalhe.id}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <select id="selectPgto" class="form-control" [(ngModel)]="registroFinanceiro.formaPagamento.numSeq">
+                    @for (FORMA of formasPgto; track formasPgto) {
+                      <option value="{{FORMA.numSeq}}">
+                        {{FORMA.descricao}}
+                      </option>
+                    }
+                </select>
+                <label for="txtDataVencimento">Digite a data do vencimento</label>
+                <input type="number" id="txtDataVencimento" min="1" max="31"
+                    [(ngModel)]="registroFinanceiro.diaVencimento" class="form-control">
+
+                <label for="txtParcelas">Digite o numero de parcelas</label>
+                <input type="number" id="txtParcelas" min="1" max="10" [(ngModel)]="registroFinanceiro.totalParcelas"
+                    class="form-control">
+                <label for="selectPgto">Selecione a forma de Pagamento</label>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="gerarFluxo()">Gerar
+                    Fluxo</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- botao do modal do financeiro -->
+<button type="button" id="btnModalFinanceiro" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#financeiroModal">
+    Start Modal.
+</button>
+
 
 
 <div class="container-fluid">
@@ -104,17 +145,48 @@
 
         <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 col-xl-2 d-flex flex-column align-items-center justify-content-center">
           <label for="checks" >Status</label>
-          <div id="checks" class="d-flex justify-content-center gap-2">
-            <input type="checkbox" class="btn-check" id="chkPago" [(ngModel)] = "filtroPedidoDTO.pago">
-            <label class="btn btn-outline-primary" for="chkPago"> <i class="fas fa-dollar-sign"></i></label>
+         <div id="checks" class="d-flex justify-content-center">
+        <!-- filtro 0 NOVO-->
+        <input type="checkbox" name="chkNovo" value="1" class="btn-check" id="chkNovo"
+            autocomplete="off" [(ngModel)]="filtroPedidoDTO.novo">
+        <label class="btn btn-outline-primary" for="chkNovo"><i
+                class="far fa-clipboard"></i></label>
+        <!-- filtro 1 PAGO-->
+        <input type="checkbox" name="chkPago" value="1" class="btn-check" id="chkPago"
+            autocomplete="off" [(ngModel)]="filtroPedidoDTO.pago">
+        <label class="btn btn-outline-primary" for="chkPago"><i
+                class="fas fa-dollar-sign"></i></label>
 
-            <input type="checkbox" class="btn-check" id="chkEnter" [(ngModel)] = "filtroPedidoDTO.entregue">
-            <label class="btn btn-outline-primary" for="chkEnter">  <i class="fas fa-truck"></i></label>
+        <!-- filtro 2 TRANSPORTE-->
+        <input type="checkbox" name="chkTransp" value="1" class="btn-check" id="chkTransp"
+            autocomplete="off" [(ngModel)]="filtroPedidoDTO.transporte">
+        <label class="btn btn-outline-primary" for="chkTransp"><i
+                class="fas fa-shipping-fast"></i></label>
 
-            <input type="checkbox" class="btn-check" id="chkCanc" [(ngModel)] = "filtroPedidoDTO.cancelado">
-            <label class="btn btn-outline-primary" for="chkCanc"><i class="fas fa-window-close"></i></label>
+        <!-- filtro 3 ENTREGUE-->
+        <input type="checkbox" name="chkEntr" value="1" class="btn-check" id="chkEntr"
+            autocomplete="off" [(ngModel)]="filtroPedidoDTO.entregue">
+        <label class="btn btn-outline-primary" for="chkEntr"><i
+                class="fas fa-hand-holding-heart"></i></label>
 
-          </div>
+        <!-- filtro 4 POS VENDA -->
+        <input type="checkbox" name="chkPos" value="1" class="btn-check" id="chkPos"
+            autocomplete="off" [(ngModel)]="filtroPedidoDTO.posVenda">
+        <label class="btn btn-outline-primary" for="chkPos"><i
+                class="far fa-smile-wink"></i></label>
+
+        <!-- filtro 5 FINALIZADO -->
+        <input type="checkbox" name="chkFim" value="1" class="btn-check" id="chkFim"
+            autocomplete="off" [(ngModel)]="filtroPedidoDTO.finalizado">
+        <label class="btn btn-outline-primary" for="chkFim"><i
+                class="far fa-check-square"></i></label>
+
+        <!-- filtro 6 CANCELADO-->
+        <input type="checkbox" name="chkCanc" value="1" class="btn-check" id="chkCanc"
+            autocomplete="off" [(ngModel)]="filtroPedidoDTO.cancelado">
+        <label class="btn btn-outline-primary" for="chkCanc"><i
+                class="fas fa-window-close"></i></label>
+    </div>
         </div>
 
         <div class="col-sm-12 col-xs-12 col-md-2 col-lg-2 col-xl-2 mt-4 text-center">
@@ -158,22 +230,48 @@
           <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
 
             <input type="radio" class="btn-check" name="btnradio-{{ITEM.id}}" id="btnradio1-{{ITEM.id}}"
-              autocomplete="off" [checked]="ITEM.status == 1" (click)="alterarStatus(ITEM.id,1)">
+              autocomplete="off" [checked]="ITEM.status == 1" (click)="alterarStatus(ITEM,1)">
             <label class="btn btn-outline-primary" for="btnradio1-{{ITEM.id}}">
-              <i class="fas fa-dollar-sign"></i>
+              <i class="far fa-clipboard"></i>
             </label>
 
             <input type="radio" class="btn-check" name="btnradio-{{ITEM.id}}" id="btnradio2-{{ITEM.id}}"
-              autocomplete="off" [checked]="ITEM.status == 2" (click)="alterarStatus(ITEM.id,2)">
+              autocomplete="off" [checked]="ITEM.status == 2" (click)="gerarFinanceiro(ITEM,2)">
             <label class="btn btn-outline-primary" for="btnradio2-{{ITEM.id}}">
-              <i class="fas fa-truck"></i>
+              <i class="fas fa-dollar-sign"></i>
             </label>
 
             <input type="radio" class="btn-check" name="btnradio-{{ITEM.id}}" id="btnradio3-{{ITEM.id}}"
-              autocomplete="off" [checked]="ITEM.status == 3" (click)="alterarStatus(ITEM.id,3)">
+              autocomplete="off" [checked]="ITEM.status == 3" (click)="alterarStatus(ITEM,3)">
             <label class="btn btn-outline-primary" for="btnradio3-{{ITEM.id}}">
+              <i  class="fas fa-shipping-fast"></i>
+            </label>
+
+
+            <input type="radio" class="btn-check"  name="btnradio-{{ITEM.id}}" id="btnradio4-{{ITEM.id}}"
+              autocomplete="off" [checked]="ITEM.status == 4" (click)="alterarStatus(ITEM,4)">
+            <label class="btn btn-outline-primary" for="btnradio4-{{ITEM.id}}">
+              <i   class="fas fa-hand-holding-heart"></i>
+            </label>
+
+            <input type="radio" class="btn-check"  name="btnradio-{{ITEM.id}}" id="btnradio5-{{ITEM.id}}"
+              autocomplete="off" [checked]="ITEM.status == 5" (click)="alterarStatus(ITEM,5)">
+            <label class="btn btn-outline-primary" for="btnradio5-{{ITEM.id}}">
+              <i  class="far fa-smile-wink"></i>
+            </label>
+
+            <input type="radio" class="btn-check"  name="btnradio-{{ITEM.id}}" id="btnradio6-{{ITEM.id}}"
+              autocomplete="off" [checked]="ITEM.status == 6" (click)="alterarStatus(ITEM,6)">
+            <label class="btn btn-outline-primary"  for="btnradio6-{{ITEM.id}}">
+              <i class="far fa-check-square"></i>
+            </label>
+
+            <input type="radio" class="btn-check" name="btnradio-{{ITEM.id}}" id="btnradio7-{{ITEM.id}}"
+              autocomplete="off" [checked]="ITEM.status == 7" (click)="alterarStatus(ITEM,7)">
+            <label class="btn btn-outline-primary"  for="btnradio7-{{ITEM.id}}">
               <i class="fas fa-window-close"></i>
             </label>
+
 
           </div>
         </td>

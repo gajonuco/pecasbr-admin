@@ -42,6 +42,11 @@ export class Login {
 
       },
       error: (err) => {
+        if (err.status == 403) {
+          this.mensagemToast = "Sessão expirada! Tente fazer login novamente."
+          localStorage.removeItem("Token");
+          this.router.navigate(["/"], { queryParams: { src: "expired" } })
+      }
         this.mensagemToast = "Seu usuário/senha estão inválidos ou bloqueado"
         this.toastType = 'error'
         this.mostrarToast();

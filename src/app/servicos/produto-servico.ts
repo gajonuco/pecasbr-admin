@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Peca } from '../model/Peca';
 import { PathDTO } from '../model/PathDTO';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ProdutoServico {
 
     public getAllPecas(): Observable<Peca[]>{
 
-      return this.http.get<Peca[]>("http://localhost:8080/peca/todos");
+      return this.http.get<Peca[]>(environment.apiURL+"/peca/todos");
     }
 
     public getById(id: number): Observable<Peca>{
@@ -23,7 +24,7 @@ export class ProdutoServico {
       let header = {'Authorization':token}
 
   
-      return this.http.get<Peca>("http://localhost:8080/peca/"+ id, {headers: header});
+      return this.http.get<Peca>(environment.apiURL+"/peca/"+ id, {headers: header});
     }
 
     public incluirNovaPeca(peca:Peca){
@@ -31,7 +32,7 @@ export class ProdutoServico {
       let token: string = localStorage.getItem("Token") ?? '';
       let header = {'Authorization':token}
 
-      return this.http.post<Peca>("http://localhost:8080/peca", peca, {headers: header});
+      return this.http.post<Peca>(environment.apiURL+"/peca", peca, {headers: header});
 
     }
 
@@ -40,7 +41,7 @@ export class ProdutoServico {
       let token: string = localStorage.getItem("Token") ?? '';
       let header = {'Authorization':token}
 
-      return this.http.post<PathDTO>("http://localhost:8080/peca/upload", formData, {headers: header});
+      return this.http.post<PathDTO>(environment.apiURL+"/peca/upload", formData, {headers: header});
     }
 
     public atualizarProduto(peca:Peca){
@@ -48,7 +49,7 @@ export class ProdutoServico {
       let token: string = localStorage.getItem("Token") ?? '';
       let header = {'Authorization':token} 
 
-      return this.http.put<Peca>("http://localhost:8080/peca/"+ peca.id, peca, {headers: header});
+      return this.http.put<Peca>(environment.apiURL+"/peca/"+ peca.id, peca, {headers: header});
 
     }
 }

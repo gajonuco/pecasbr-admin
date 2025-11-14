@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoriaPeca } from '../model/CategoriaPeca';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CategoriaServico {
 
     public getAllCategoriasPecas(): Observable<CategoriaPeca[]>{
 
-      return this.http.get<CategoriaPeca[]>("http://localhost:8080/categoria_by_id");
+      return this.http.get<CategoriaPeca[]>(environment.apiURL+"/categoria_by_id");
     }
 
    
@@ -22,7 +23,7 @@ export class CategoriaServico {
       let header = {
         'Authorization':token
       }
-      return this.http.get<CategoriaPeca>("http://localhost:8080/categoria_peca/"+ id, {headers: header});
+      return this.http.get<CategoriaPeca>(environment.apiURL+"/categoria_peca/"+ id, {headers: header});
     }
     
     public incluirNovaCategoria(categoria:CategoriaPeca){
@@ -31,7 +32,7 @@ export class CategoriaServico {
       let header = {
         'Authorization':token
       }
-      return this.http.post<CategoriaPeca>("http://localhost:8080/categoria_peca", categoria, {headers: header});
+      return this.http.post<CategoriaPeca>(environment.apiURL+"/categoria_peca", categoria, {headers: header});
 
     }
 
@@ -41,7 +42,7 @@ export class CategoriaServico {
       let header = {
         'Authorization':token
       }
-      return this.http.put<CategoriaPeca>("http://localhost:8080/categoria_peca", categoria, {headers: header});
+      return this.http.put<CategoriaPeca>(environment.apiURL+"/categoria_peca", categoria, {headers: header});
 
     }
 }

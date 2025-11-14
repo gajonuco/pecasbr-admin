@@ -51,6 +51,14 @@ export class Produtos implements OnInit{
       }
     })
   }
+  public prontaEntrega(peca:Peca){
+    peca.prontaEntrega = peca.prontaEntrega ? 1 : 0;
+    this.service.atualizarProduto(peca).subscribe({
+      next: (res: Peca) => {
+        console.log("Peca" + res)
+      }
+    })
+  }
 
     public buscarCompradores(idPeca: number) {
     this.cliService.buscarCompradores(idPeca)

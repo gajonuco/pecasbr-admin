@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Pedido } from '../model/Pedido';
 import { VendasPorDataDTO } from '../model/VendasPorDataDTO';
 import { FiltroPedidoDTO } from '../model/FiltroPedidoDTO';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -14,31 +15,20 @@ export class PedidosServico {
     constructor(private http: HttpClient){}
   
       public getAllPedidos(filtro: FiltroPedidoDTO): Observable<Pedido[]>{
-        let token: string = localStorage.getItem("Token") ?? '';
-  
-        let header = {
-          'Authorization':token
-        }
-        return this.http.post<Pedido[]>("http://localhost:8080/pedido/filtrar", filtro , {headers: header});
+        return this.http.post<Pedido[]>(environment.apiURL+"/pedido/filtrar", filtro );
       }
 
-        public alterarStatus(idPedido: number, status:number): Observable<Pedido>{
-        let token: string = localStorage.getItem("Token") ?? '';
-  
-        let header = {
-          'Authorization':token
-        }
-        return this.http.put<Pedido>(`http://localhost:8080/pedido/${idPedido}?status=${status}`,{}, { headers: header });
+      public alterarStatus(pedido: Pedido, status:number){
+        return this.http.patch<Pedido>(environment.apiURL + "/pedido/" + pedido.id + "?status=" + status, {});
 
       }
 
       public recuperarTotaisDaSemana(inicio: string, fim: string): Observable<VendasPorDataDTO[]>{
-        let token: string = localStorage.getItem("Token") ?? '';
-  
-        let header = {
-          'Authorization':token
-        }
-        return this.http.get<VendasPorDataDTO[]>("http://localhost:8080/pedido/recentes?inicio="+inicio+"&fim="+fim, { headers: header });
 
+        return this.http.get<VendasPorDataDTO[]>(environment.apiURL+"/pedido/recentes?inicio="+inicio+"&fim="+fim);
+      }
+
+      public atualizarPedido(pedido: Pedido): Observable<Pedido>{
+        return this.http.put<Pedido>(environment.apiURL + "/pedido", pedido )
       }
 }

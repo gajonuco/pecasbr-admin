@@ -24,6 +24,7 @@ export class EditorProduto {
   public listaCategorias: CategoriaPeca[]=[]
   public arquivo!: File;
   public result!:number;
+  public prontaEntrega!: boolean
   public mensagemToast!:string;
    public toastType!: string;
   
@@ -103,7 +104,7 @@ export class EditorProduto {
 
     this.servicoProduto.uploadFoto(formData).subscribe({
       next: (res: PathDTO) => {
-        this.peca.linkFoto = "http://localhost:8080/images/" + res.pathToFile;
+        this.peca.linkFoto = "https://projetoreal.dev.br/assets/img/" + res.pathToFile;
 
 
         console.log("Upload concluído:", res);

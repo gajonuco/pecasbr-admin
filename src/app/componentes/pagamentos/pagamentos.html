@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Gerenciar Meios de Pagamento</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+        <button class="btn btn-primary" [routerLink]="['/main/editor-pagamentos', 'new']">
+            Novo Meio de Pagamento
+        </button>
+        </div>
+    </div>
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="row">#</th>
+                <th scope="row">Nome</th>
+                <th scope="row">Perecentual Retenção</th>
+                <th scope="row">Visível ao Usuário</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(ITEM of lista; track lista){
+            <tr>
+                <td><a [routerLink]="['/main/editor-pagamentos', ITEM.numSeq]">{{ITEM.numSeq}}</a></td>
+                <td>{{ITEM.descricao}}</td>
+                <td class="text-center">{{ITEM.retencao}}</td>
+                <td class="text-center">{{ITEM.visivel}}</td>
+            </tr>
+            }
+
+            
+        </tbody>
+
+    </table>
+</div>
