@@ -55,4 +55,14 @@ export class ClienteServico {
         return this.http.get<Cliente[]>(environment.apiURL+"/cliente/aniversario/" + mes, {headers : header});
 
     }
+
+
+  public adicionarNovo(cliente: Cliente){
+    return this.http.post<Cliente>(environment.apiURL+"/cliente", cliente );
+  }
+
+  public atualizarDados(cliente: Cliente){
+    return this.http.put<Cliente>(environment.apiURL+"/cliente", cliente );
+  }
+
   }

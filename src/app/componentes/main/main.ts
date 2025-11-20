@@ -21,11 +21,12 @@ constructor( private router:Router){}
   screenWidth = signal<number>(window.innerWidth);
 
   items = [
-    { routeLink: 'dashboard', icon: 'fas fa-chart-pie', label: 'Dashboard' },
+    { routeLink: 'dashboard', icon: 'fas fa-chart-pie', label: 'Dashboard' }, 
     { routeLink: 'categorias', icon: 'fas fa-list-ul', label: 'Categorias' },
     { routeLink:'produtos', icon: 'fas fa-box-open', label: 'Produtos' },
     { routeLink:'financeiro', icon: 'fas fa-dollar-sign', label: 'Financeiro' },
     { routeLink: 'pagamentos', icon: 'fas fa-credit-card', label: 'Pagamentos'},
+    { routeLink: 'fretes', icon: 'fas fa-shipping-fast', label: 'Fretes'},
     { routeLink:'pedidos', icon: 'far fa-file-alt', label: 'Pedidos' },
     { routeLink: 'clientes', icon: 'fas fa-users', label: 'Clientes' },
     { routeLink: 'usuarios', icon: 'fas fa-key', label: 'Usuários' },

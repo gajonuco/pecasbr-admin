@@ -27,7 +27,7 @@ export class Pedidos {
   public registroFinanceiro!: RegistroFinanceiro
   public total!: number;
   public formasPgto!: FormaPagamento[]
-  public lista : Pedido[]=[]
+  public lista! : Pedido[]
   constructor(
     private service: PedidosServico,
     private fpservice: FormapagamentoService,
@@ -140,9 +140,19 @@ export class Pedidos {
   }
 
   public atualizarPedido(){
-     this.service.atualizarPedido(this.detalhe).subscribe({
+    console.log(this.detalhe);
+    this.service.atualizarPedido(this.detalhe).subscribe({
+      next: (res:Pedido) => { 
+         this.mensagemToast = "Pedido alterado com sucesso!"
+         this.toastType = 'success'
+         this.mostrarToast()
+      },
+      error: (err: any) => {
+         this.mensagemToast = "Infelizmente não consegui alterar os dados do pedido"
+         this.toastType = 'error'
+         this.mostrarToast()
+      }
+   });
 
-     })
   }
-
 }

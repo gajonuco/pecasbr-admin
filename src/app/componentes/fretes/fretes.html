@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <h3> Gerenciar Fretes </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-primary" [routerLink]="['/main/editor-frete', 'new']">Novo Frete</a>
+        </div>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Prefixo</th>
+                <th scope="col">Descricao</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Disponivel</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- aqui vem o loop de categorias -->
+            @for(ITEM of lista; track lista){
+                <tr>
+                    <th scope="row">{{ITEM.id}}</th>
+                    <td><a [routerLink]="['/main/editor-frete', ITEM.id]">{{ITEM.prefixo}}</a></td>
+                    <td>{{ITEM.descricao}}</td>
+                    <td>R$ {{ITEM.valor | number: '1.2-2'}}</td>
+                    <td><div class="d-flex justify-content-center form-check form-switch"><input class="form-check-input" type="checkbox" id="chkDisponivel" [(ngModel)]="ITEM.disponivel" (change)="disponibiliza(ITEM)"></div></td>
+                </tr>
+            }
+
+ 
+        </tbody>
+    </table>
+
+</div>

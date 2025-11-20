@@ -27,7 +27,11 @@
         </div>
         <div class = "col-6">
             <button class ="button" id="btnBusca" class="btn btn-primary" (click) = "buscarPorPalavraChave()">Buscar Cliente</button>
+            &nbsp; &nbsp;
+            <button type="button" id="btnNovo" class="btn btn-primary ml-3" (click)="adicionarNovoCliente()">Novo
+                Cliente</button>
         </div>
+
 
     </div>
 
@@ -45,6 +49,7 @@
         <tbody>
             @for(CLI of listaClientes; track listaClientes){
             <tr>
+                <i class="far fa-edit" (click)="exibirCliente(CLI)"></i>
                 <td>{{CLI.nome}}
                     @if(isBirthDay(CLI.dataNasc)){
                         <span><i class = "fas fa-birthday-cake fa-2x"></i></span>
@@ -65,3 +70,60 @@
     </table>
 
 </div>
+<!-- modal com dados do cliente -->
+<div class="modal fade" tabindex="-1" id="modalCliente">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editor de Clientes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="txtNome" class="form-label">Nome do Cliente</label>
+                <input type="text" class="form-control" id="txtNome" [(ngModel)]="detalhe.nome"/>
+                
+                <label for="txtCPF" class="form-label">CPF do Cliente</label>
+                <input type="text" class="form-control" id="txtCPF" [(ngModel)]="detalhe.cpf" placeholder="Digite sem pontos nem traços"/>
+                
+                <label for="txtEmail" class="form-label">Email</label>
+                <input type="text" class="form-control" id="txtEmail" [(ngModel)]="detalhe.email"/>
+                
+                <label for="txtDataNasc" class="form-label">Data Nascimento</label>
+                <input type="date" class="form-control" id="txtDataNasc" [(ngModel)]="detalhe.dataNasc"/>
+                
+                <label for="txtTelefone" class="form-label">Telefone/Whastapp</label>
+                <input type="text" class="form-control" id="txtTelefone" [(ngModel)]="detalhe.telefone" placeholder="sem pontuações"/>
+                
+                <label for="txtCEP" class="form-label">CEP</label>
+                <input type="text" class="form-control" id="txtCEP" [(ngModel)]="detalhe.cep"/>
+                <button type="button" class="btn btn-primary mt-3" (click)="buscarCEP()">Buscar CEP</button> <br/>
+                
+                <label for="txtLogradouro" class="form-label">Logradouro</label>
+                <input type="text" class="form-control" id="txtLogradouro" [(ngModel)]="detalhe.logradouro"/>
+
+                <label for="txtNumero" class="form-label">Numero</label>
+                <input type="text" class="form-control" id="txtNumero" [(ngModel)]="detalhe.numero"/>
+                
+                <label for="txtComplemento" class="form-label">Complemento</label>
+                <input type="text" class="form-control" id="txtComplemento" [(ngModel)]="detalhe.complemento"/>
+                
+                <label for="txtBairro" class="form-label">Bairro</label>
+                <input type="text" class="form-control" id="txtBairro" [(ngModel)]="detalhe.bairro"/>
+                
+                <label for="txtCidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="txtCidade" [(ngModel)]="detalhe.cidade"/>
+                
+                <label for="txtEstado" class="form-label">Estado</label>
+                <input type="text" class="form-control" id="txtEstado" [(ngModel)]="detalhe.estado"/>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="atualizarDadosCliente()">Atualizar Dados</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<button style="visibility: hidden;" id="btnModalCliente" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente"> Abrir </button>

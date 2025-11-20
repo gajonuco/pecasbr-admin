@@ -14,6 +14,9 @@ import { EditorUsuario } from './componentes/editor-usuario/editor-usuario';
 import { Financeiro } from './componentes/financeiro/financeiro';
 import { Pagamentos } from './componentes/pagamentos/pagamentos';
 import { EditorPagamentos } from './componentes/editor-pagamentos/editor-pagamentos';
+import { Fretes } from './componentes/fretes/fretes';
+import { EditorFrete} from './componentes/editor-frete/editor-frete';
+
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -28,12 +31,14 @@ export const routes: Routes = [
       { path: 'editor-categoria/:id', component: EditorCategoria },
       { path: 'produtos', component: Produtos },
       { path: 'clientes', component: Clientes},
+      { path: 'fretes', component: Fretes},
       { path: 'editor-produto/:id', component: EditorProduto },
       { path: 'usuarios', component: Usuarios },
       {path: 'editor-usuario/:id', component: EditorUsuario},
       {path: 'financeiro', component: Financeiro},
       {path: 'pagamentos', component: Pagamentos},
       {path: 'editor-pagamentos/:id', component: EditorPagamentos},
+      {path: 'editor-frete/:id', component: EditorFrete},
       
 
       // aqui você adiciona também pages, settings etc
