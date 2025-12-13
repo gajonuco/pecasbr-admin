@@ -55,7 +55,7 @@ export class Produtos implements OnInit {
           this.lista = res;
           console.log('📦 Produtos carregados:', this.lista.length);
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('❌ Erro ao carregar produtos:', err);
           this.router.navigate(['/']);
         }
@@ -197,7 +197,7 @@ export class Produtos implements OnInit {
           life: 3000
         });
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('❌ Erro ao atualizar disponibilidade:', err);
         
         // Reverte o estado em caso de erro
@@ -236,7 +236,7 @@ export class Produtos implements OnInit {
           life: 3000
         });
       },
-      error: (err) => {
+      error: (err: any ) => {
         console.error('❌ Erro ao atualizar pronta entrega:', err);
         
         // Reverte o estado em caso de erro

@@ -7,13 +7,14 @@ import { CategoriaServico } from '../../servicos/categoria-servico';
 import { CategoriaPeca } from '../../model/CategoriaPeca';
 import { PathDTO } from '../../dto/PathDTO';
 import { CommonModule } from '@angular/common';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Select } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 declare var bootstrap: any;
 
