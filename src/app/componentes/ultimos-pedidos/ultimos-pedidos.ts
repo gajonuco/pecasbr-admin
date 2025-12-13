@@ -1,15 +1,22 @@
 import { Component } from '@angular/core';
 import moment from 'moment';
-import { FiltroPedidoDTO } from '../../model/FiltroPedidoDTO';
+import { FiltroPedidoDTO } from '../../dto/FiltroPedidoDTO';
 import { Pedido } from '../../model/Pedido';
 import { PedidosServico } from '../../servicos/pedidos-servico';
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { CommonModule, CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 
 @Component({
   selector: 'app-ultimos-pedidos',
-  imports: [DatePipe,CurrencyPipe],
+  imports: [DatePipe, FormsModule, TableModule, ButtonModule, TagModule, CurrencyPipe ],
   templateUrl: './ultimos-pedidos.html',
   styleUrl: './ultimos-pedidos.css'
 })
@@ -47,9 +54,9 @@ export class UltimosPedidos {
           this.lista = res,
           this.lista.forEach(item => {
             this.total += item.valorTotal;
-            if (item.status == 0) this.totalPendentes += item.valorTotal;
-            else if (item.status == 1 || item.status == 2) this.totalPago += item.valorTotal;
-            else if (item.status == 3) this.totalCancelado += item.valorTotal;;
+            if (item.status == 1) this.totalPendentes += item.valorTotal;
+            else if (item.status == 2 || item.status == 3 || item.status == 4 || item.status == 5 || item.status == 6) this.totalPago += item.valorTotal;
+            else if (item.status == 7) this.totalCancelado += item.valorTotal;;
           })
         },  
           error: (err:any) =>{

@@ -10,5 +10,3 @@ export class EntidadeCEP {
   public regiao!: string;     
   public ibge!: string;
 }
-
-

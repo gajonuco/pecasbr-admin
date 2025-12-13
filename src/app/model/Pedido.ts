@@ -10,4 +10,6 @@ export class Pedido{
     public observacoes!: string;
     public cliente!: Cliente;
     public status!: number;
+    public retirar!: number
+    public valorFrete!: number
 }

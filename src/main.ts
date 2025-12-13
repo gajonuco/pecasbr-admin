@@ -2,6 +2,7 @@
 
 
 import {
+  
   Chart,
   ArcElement,
   LineElement,
@@ -25,7 +26,9 @@ import {
   Filler,
   Legend,
   Title,
-  Tooltip
+  Tooltip,
+  
+
 } from 'chart.js';
 
 Chart.register(

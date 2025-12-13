@@ -1,86 +1,85 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 text-center">
-            <h3>Editor de Meios de Pagamentos</h3>
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h3>Editor de Meios de Pagamentos</h3>
+    </div>
+  </div>
+
+  @if(mode == 0){
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="alert alert-info" role="alert">
+          <i class="pi pi-info-circle me-2"></i>Inserindo novo meio de pagamento
+        </div>
+      </div>
+    </div>
+  }@else {
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                <i class="pi pi-pencil me-2"></i>Editando meio de pagamento
+            </div>
         </div>
     </div>
-
-    @if(mode == 0){
-        <div class="row">
-            <div class="col-12">
-                <p>Inserindo novo meio de pagamento</p>
-            </div>
-         </div>
     }
 
-
-    <div class="row">
-        <div class="col-12">
-            <div class="mb-3">
-                <label for="txtNomePagamento" class="form-label">Nome do Meio de Pagamento</label>
-                <input type="text" class="form-control" id="txtNome" [(ngModel)]="formaPgto.descricao">
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-12 mb-3">
+      <label for="txtNomePagamento" class="form-label">Nome do Meio de Pagamento</label>
+      <input pInputText 
+             type="text" 
+             class="form-label w-100" 
+             id="txtNome" 
+             [(ngModel)]="formaPgto.descricao"
+             placeholder="Ex: PIX, Cartão de Crédito, Boleto...">
     </div>
-
-    <div class="row">
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="txtPercentual" class="form-label">Percentual de Retenção</label>
-                <input type="number" class="form-control" id="txtPercentual" [(ngModel)]="formaPgto.retencao">
-            </div>
-        </div>
-
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="chkDisponivel" class="form-label">Visivel ao Usuário</label>
-                <div class="form-control text-center">
-                    <input type="checkbox" id="chkDisponivel" [(ngModel)]="visivel">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-            <button class="btn btn-primary" (click)="atualizarFormaPgto();">Atualizar Dados</button>
-        </div>
-        <div class="col-6">
-            <a class="btn btn-primary" [routerLink]="['/main/pagamentos']">Voltar</a>
-        </div>
-    </div>
-
-
-</div>
-
-    <!-- Toast fixo -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-<!-- No seu template HTML -->
-<div id="liveToast"
-     class="toast align-items-center border-0"
-     role="alert"
-     aria-live="assertive"
-     aria-atomic="true"
-     [ngClass]="{
-        'bg-success': toastType === 'success',
-        'bg-danger': toastType === 'error',
-        'bg-warning': toastType === 'warning',
-        'bg-info': toastType === 'info',
-        'text-white': toastType !== 'warning',
-        'text-dark': toastType === 'warning'
-     }">
-  <div class="d-flex">
-    <div class="toast-body">
-      {{ mensagemToast }}
-    </div>
-    <button type="button"
-            [ngClass]="{
-               'btn-close-white': toastType !== 'warning',
-               'btn-close': toastType === 'warning'
-            }"
-            class="me-2 m-auto"
-            data-bs-dismiss="toast"
-            aria-label="Close"></button>
   </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <label for="txtPercentual" class="form-label">Percentual de Retenção (%)</label>
+      <p-inputNumber 
+        [(ngModel)]="formaPgto.retencao"
+        [min]="0"
+        [max]="100"
+        suffix="%"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        inputId="txtPercentual"
+        styleClass="w-100">
+      </p-inputNumber>
+    </div>
+
+    <div class="col-12 col-md-6 mb-3">
+      <label for="chkDisponivel" class="form-label">Visível ao Usuário</label>
+      <div class="form-control text-center">
+        <p-checkbox 
+          [(ngModel)]="visivel" 
+          [binary]="true"
+          inputId="chkDisponivel">
+        </p-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12 col-md-6 mb-2">
+      <button pButton 
+              label="Atualizar Dados" 
+              icon="pi pi-check"
+              class="w-100"
+              (click)="atualizarFormaPgto()">
+      </button>
+    </div>
+    <div class="col-12 col-md-6">
+      <button pButton 
+              label="Voltar" 
+              icon="pi pi-arrow-left"
+              class="p-button-secondary w-100"
+              [routerLink]="['/main/pagamentos']">
+      </button>
+    </div>
+  </div>
+
 </div>
-</div>
+

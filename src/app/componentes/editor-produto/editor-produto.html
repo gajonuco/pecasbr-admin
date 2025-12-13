@@ -1,149 +1,257 @@
-<!-- Toast fixo -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast"
-       class="toast align-items-center text-white border-0"
-       role="alert"
-       aria-live="assertive"
-       aria-atomic="true"
-       [ngClass]="{
-          'bg-success': toastType === 'success',
-          'bg-danger': toastType === 'error'
-       }">
-    <div class="d-flex">
-      <div class="toast-body">
-        {{ mensagemToast }}
-      </div>
-      <button type="button"
-              class="btn-close btn-close-white me-2 m-auto"
-              data-bs-dismiss="toast"
-              aria-label="Close"></button>
-    </div>
-  </div>
-</div>
-
-
-
-
 <div class="container">
-    <div class = "row">
-        <div class="col-12 text-center">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
             <h3>Editor de Produtos</h3>
         </div>
     </div>
 
     @if(mode == 0){
-    <div class = "row">
+    <div class="row mb-3">
         <div class="col-12">
-            <p>Inserindo novo Produto</p>
+            <div class="alert alert-info" role="alert">
+                <i class="pi pi-info-circle me-2"></i>Inserindo novo Produto
+            </div>
+        </div>
+    </div>
+    }@else {
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                <i class="pi pi-pencil me-2"></i>Editando Produto
+            </div>
         </div>
     </div>
     }
 
-    <div class = "row">
-        <label for="formFile" class="form-label">Selecione a foto do Produto</label>
-        <div class="mb-3 input-group">
-
-            <input class="form-control" type="file" id="formFile" (change)="selectFile($event)" />
-
-            <button type="button" class ="btn btn-primary" (click)="uploadFoto()">Enviar</button>
-        </div>
-    </div>
-       <div class = "row" id="divFoto">
-            <div class="col-4">
-                @if (peca.linkFoto) {
-                    <img [src]="peca.linkFoto" class="img-fluid">
-                } @else {
-                    <h4 class="text-center mt-2">Foto da Peça</h4>
-                }
-            </div>
-       </div>
-
-
-    <div class = "row">
+    <!-- Upload de Foto -->
+    <div class="row mb-3">
         <div class="col-12">
-            <div class="mb-3">
-                <label for="txtNomeProduto" class="form-label">Nome do Produto</label>
-                <input type="text" class="form-control" id ="txtNome" [(ngModel)]= "peca.nome">
-            </div>  
-        </div>
-    </div>
-    <div class = "row">
-        <div class="col-12">
-            <div class="mb-3">
-                <label for="txtDetalheProduto" class="form-label">Detalhamento do Produto</label>
-                <input type="text" class="form-control" id ="txtDetalhe" [(ngModel)]= "peca.detalhe">
-            </div>  
-        </div>
-    </div>
-
-<div class="row">
-  <div class="col-12">
-    <div class="mb-3">
-      <label for="txtCategoria" class="form-label">Categoria</label>
-
-      <select id="txtCategoria"
-              class="form-control"
-              [(ngModel)]="peca.categoriaPeca">
-        @for(CATEG of listaCategorias; track CATEG.id) {
-          <option [ngValue]="CATEG">{{ CATEG.nome }}</option>
-        }
-      </select>
-    </div>
-  </div>
-</div>
-
-
-
-    <div class = "row">
-        <div class="col-3">
-            <div class="mb-3">
-                <label for="txtNomePreço" class="form-label">Preço</label>
-                <input type="text" class="form-control" id ="txtPreço" [(ngModel)]= "peca.preco">
-            </div>  
-        </div>
-        <div class="col-3">
-            <div class="mb-3">
-                <label for="txtPrecoPromo" class="form-label">Preço Promocional</label>
-                <input type="number" class="form-control" id="txtPrecoPromo" [(ngModel)]="peca.precoPromo">
+            <label for="formFile" class="form-label">Selecione a foto do Produto</label>
+            <div class="input-group">
+                <input class="form-control" type="file" id="formFile" (change)="selectFile($event)">
+                <button pButton type="button" label="Enviar" icon="pi pi-upload" (click)="uploadFoto()">
+                </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Preview da Foto -->
+    <div class="row mb-4" id="divFoto">
+        <div class="col-12 d-flex justify-content-center">
+            @if (peca.linkFoto) {
+            <img [src]="peca.linkFoto" class="img-fluid rounded border">
+            } @else {
+            <div class="border rounded p-4 text-center bg-light">
+                <i class="pi pi-image" style="font-size: 3rem; color: #ccc;"></i>
+                <h5 class="text-center mt-2">Foto da Peça</h5>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Nome do Produto -->
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label for="txtNomeProduto" class="form-label">Nome do Produto</label>
+            <input pInputText type="text" class="w-100" id="txtNome" [(ngModel)]="peca.nome"
+                placeholder="Digite o nome do produto">
+        </div>
+    </div>
+
+    <!-- Detalhamento do Produto (CKEditor) -->
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label for="txtDetalhe" class="form-label">Detalhamento do Produto</label>
+            <ckeditor [editor]="Editor" [(ngModel)]="peca.detalhe" [config]="editorConfig" name="detalhe">
+            </ckeditor>
+        </div>
+    </div>
+
+    <!-- Categoria -->
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label for="txtCategoria" class="form-label">Categoria</label>
+            <p-select [options]="listaCategorias" [(ngModel)]="peca.categoriaPeca" optionLabel="nome"
+                placeholder="Selecione uma categoria" [showClear]="true" styleClass="w-100">
+            </p-select>
+        </div>
+    </div>
+
+    <!-- SEÇÃO DE ESTOQUE COM VALIDAÇÕES -->
+    <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+            <label for="txtQuantidadeEstoque" class="form-label">
+                Quantidade Estoque
+                <i class="pi pi-info-circle ms-1" 
+                   style="font-size: 0.85rem; color: #6c757d;"
+                   title="Será atualizado automaticamente ao alterar o estoque crítico"></i>
+            </label>
+            <p-inputNumber 
+                [(ngModel)]="peca.quantidadeEstoque" 
+                (ngModelChange)="onQuantidadeEstoqueChange()"
+                inputId="txtQuantidadeEstoque" 
+                [showButtons]="true"
+                [min]="0"
+                [step]="1"
+                styleClass="w-100"
+                [ngClass]="{'ng-invalid ng-dirty': erroQuantidadeEstoque}">
+            </p-inputNumber>
+            @if(erroQuantidadeEstoque) {
+                <small class="text-danger d-block mt-1">
+                    <i class="pi pi-exclamation-triangle me-1"></i>
+                    {{ erroQuantidadeEstoque }}
+                </small>
+            }
         </div>
         
-        <div class="col-2">
-            <div class="mt-2">
-            <label class="form-check-label" for="checkDefault">Disponível</label>
-            <div class=" form-control text-center">
-                <input class="form-check-input" type="checkbox" value="1" id="chcekDisponibiliza" [(ngModel)]= "peca.disponivel">
-            </div>
-            </div>  
+        <div class="col-12 col-md-3 mb-3">
+            <label for="txtEstoqueMinimo" class="form-label">
+                Estoque Mínimo
+                <i class="pi pi-info-circle ms-1" 
+                   style="font-size: 0.85rem; color: #6c757d;"
+                   title="Será atualizado automaticamente ao alterar o estoque crítico"></i>
+            </label>
+            <p-inputNumber 
+                [(ngModel)]="peca.estoqueMinimo" 
+                (ngModelChange)="onEstoqueMinimoChange()"
+                inputId="txtEstoqueMinimo"
+                [showButtons]="true"
+                [min]="0"
+                [step]="1"
+                styleClass="w-100"
+                [ngClass]="{'ng-invalid ng-dirty': erroEstoqueMinimo}">
+            </p-inputNumber>
+            @if(erroEstoqueMinimo) {
+                <small class="text-danger d-block mt-1">
+                    <i class="pi pi-exclamation-triangle me-1"></i>
+                    {{ erroEstoqueMinimo }}
+                </small>
+            }
         </div>
+        
+        <div class="col-12 col-md-3 mb-3">
+            <label for="txtEstoqueCritico" class="form-label">
+                Estoque Crítico
+                <i class="pi pi-bolt ms-1" 
+                   style="font-size: 0.85rem; color: #dc3545;"
+                   title="Ao alterar, os outros campos serão calculados automaticamente"></i>
+            </label>
+            <p-inputNumber 
+                [(ngModel)]="peca.estoqueCritico" 
+                (ngModelChange)="onEstoqueCriticoChange()"
+                inputId="txtEstoqueCritico"
+                [showButtons]="true"
+                [min]="0"
+                [step]="1"
+                styleClass="w-100">
+            </p-inputNumber>
+            <small class="text-muted d-block mt-1">
+                <i class="pi pi-lightbulb me-1"></i>
+                Altera os outros campos automaticamente
+            </small>
+        </div>
+    </div>
 
-        <div class="col-2">
-            <div class="mt-2">
-            <label class="form-check-label" for="checkChecked">Destaque</label>
-            <div class="form-control text-center">
-                <input class="form-check-input" type="checkbox"id="checkDestaque" value="1" [(ngModel)]= "peca.destaque" checked>
-            </div>
-            </div>  
-        </div>
-               <div class="col-2">
-            <div class="mb-3">
-                <label for="chkProntaEntrega" class="form-label">Pronta Entrega</label>
-                <div class="form-control text-center">
-                    <input type="checkbox" id="chkProntaEntrega" [(ngModel)]="prontaEntrega">
+    <!-- Alerta geral de validação -->
+    @if(!formularioValido) {
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="pi pi-exclamation-circle me-2" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <strong>Atenção!</strong> Existem erros de validação nos campos de estoque. 
+                        Corrija-os antes de salvar.
+                    </div>
                 </div>
             </div>
         </div>
+    }
+
+    <!-- Preços e Checkboxes -->
+    <div class="row">
+        <div class="col-12 col-md-3 mb-3">
+            <label for="txtPreco" class="form-label">Preço</label>
+            <p-inputNumber [(ngModel)]="peca.preco" mode="currency" currency="BRL" locale="pt-BR"
+                [minFractionDigits]="2" inputId="txtPreco" styleClass="w-100">
+            </p-inputNumber>
+        </div>
+
+        <div class="col-12 col-md-3 mb-3">
+            <label for="txtPrecoPromo" class="form-label">Preço Promocional</label>
+            <p-inputNumber [(ngModel)]="peca.precoPromo" mode="currency" currency="BRL" locale="pt-BR"
+                [minFractionDigits]="2" inputId="txtPrecoPromo" styleClass="w-100">
+            </p-inputNumber>
+        </div>
+
+        <div class="col-6 col-md-2 mb-3">
+            <label for="checkDisponivel" class="form-label">Disponível</label>
+            <div class="form-control text-center">
+                <p-checkbox [(ngModel)]="peca.disponivelBool" [binary]="true" inputId="checkDisponivel">
+                </p-checkbox>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-2 mb-3">
+            <label for="checkDestaque" class="form-label">Destaque</label>
+            <div class="form-control text-center">
+                <p-checkbox [(ngModel)]="peca.destaqueBool" [binary]="true" inputId="checkDestaque">
+                </p-checkbox>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-2 mb-3">
+            <label for="chkProntaEntrega" class="form-label">Pronta Entrega</label>
+            <div class="form-control text-center">
+                <p-checkbox [(ngModel)]="peca.prontaEntregaBool" [binary]="true" inputId="chkProntaEntrega">
+                </p-checkbox>
+            </div>
+        </div>
     </div>
 
-
-
-    <div class = "row">
-        <div class="col-6">
-            <button class="btn btn-primary" (click)= "atualizarProduto()">Atualizar dados</button>
+    <!-- Botões de Ação -->
+    <div class="row mt-4">
+        <div class="col-12 col-md-6 mb-2">
+            <button 
+                pButton 
+                label="Atualizar dados" 
+                icon="pi pi-check" 
+                class="w-100" 
+                [disabled]="!formularioValido"
+                (click)="atualizarProduto()">
+            </button>
         </div>
-        <div class = "col-6">
-            <button class= "btn btn-primary" [routerLink]="['/main/produtos']">Voltar</button>
+        <div class="col-12 col-md-6">
+            <button pButton label="Voltar" icon="pi pi-arrow-left" class="p-button-secondary w-100"
+                [routerLink]="['/main/produtos']">
+            </button>
         </div>
     </div>
 
+</div>
+
+<!-- TOAST FIXO -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true"
+        [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error',
+          'bg-warning': toastType === 'warning',
+          'bg-info': toastType === 'info',
+          'text-white': toastType !== 'warning',
+          'text-dark': toastType === 'warning'
+       }">
+
+        <div class="d-flex">
+            <div class="toast-body">
+                {{ mensagemToast }}
+            </div>
+
+            <button type="button" [ngClass]="{
+                'btn-close-white': toastType !== 'warning',
+                'btn-close': toastType === 'warning'
+              }" class="me-2 m-auto" data-bs-dismiss="toast" aria-label="Close">
+            </button>
+        </div>
+
+    </div>
 </div>

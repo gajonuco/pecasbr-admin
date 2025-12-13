@@ -3,10 +3,24 @@ import { CategoriaPeca } from '../../model/CategoriaPeca';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CategoriaServico } from '../../servicos/categoria-servico';
+import { CommonModule } from '@angular/common';
+import { Select } from 'primeng/select';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-editor-categoria',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, CommonModule,
+    Select,
+    CKEditorModule,
+    InputTextModule,
+    InputNumberModule,
+    CheckboxModule,
+    ButtonModule,
+      ],
   templateUrl: './editor-categoria.html',
   styleUrl: './editor-categoria.css'
 })

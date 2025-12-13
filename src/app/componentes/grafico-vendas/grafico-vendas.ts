@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VendasPorDataDTO } from '../../model/VendasPorDataDTO';
+import { VendasPorDataDTO } from '../../dto/VendasPorDataDTO';
 import { PedidosServico } from '../../servicos/pedidos-servico';
 import moment from 'moment';
 import { Chart } from 'chart.js';

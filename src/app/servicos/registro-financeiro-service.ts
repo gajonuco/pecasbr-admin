@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegistroFinanceiro } from '../model/RegistroFinanceiro';
 import { environment } from '../../environments/environment';
-import { ItemFinanceiroDTO } from '../model/ItemFinanceiroDTO';
+import { ItemFinanceiroDTO } from '../dto/ItemFinanceiroDTO';
 import { Observable } from 'rxjs';
 
 

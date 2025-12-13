@@ -13,11 +13,7 @@ export class LoginServico {
   
   public logarUsuarios(user: Usuario): Observable<Token> {
 
-    let token: string = localStorage.getItem("Token") ?? '';
 
-    let header = {
-      'Authorization':token
-    }
     return this.http.post<Token>(environment.apiURL+"/login", user);
   }
 }

@@ -1,16 +1,39 @@
-<!-- Sidebar -->
-<div class="sidenav"   [ngClass]="[isLeftSidebarCollapsed() ? 'sidenav-collapsed' : '', skipAnimation ? 'no-transition' : '']">
-  <div class="logo-container">
-  <button class="logo" (click)="toggleCollapse()">
-    <i
-      class="fal fa-bars"
-      [ngClass]="{ 'rotated': !isLeftSidebarCollapsed() }"
-    ></i>
-  </button>
+<button class="mobile-menu-btn" *ngIf="isMobile() && isLeftSidebarCollapsed()" (click)="toggleCollapse()">
+  <i class="fas fa-bars"></i>
+</button>
 
+
+
+<!-- Overlay (apenas mobile quando menu aberto) -->
+<div class="overlay" *ngIf="isMobile() && !isLeftSidebarCollapsed()" (click)="closeSidenav()"></div>
+
+<!-- Sidebar -->
+<div 
+  class="sidenav"   
+  [ngClass]="{
+    'sidenav-collapsed': isLeftSidebarCollapsed(),
+    'sidenav-mobile': isMobile(),
+    'sidenav-mobile-open': isMobile() && !isLeftSidebarCollapsed(),
+    'no-transition': skipAnimation
+  }"
+>
+
+
+  <div class="logo-container">
+    <button class="logo" (click)="toggleCollapse()">
+      <i
+        class="fal fa-bars"
+        [ngClass]="{ 'rotated': !isLeftSidebarCollapsed() }"
+      ></i>
+    </button>
 
     <div class="logo-text" *ngIf="!isLeftSidebarCollapsed()">Peças BR</div>
-    <button class="btn-close" *ngIf="!isLeftSidebarCollapsed()" (click)="closeSidenav()">
+
+    <button 
+      class="btn-close" 
+      *ngIf="!isLeftSidebarCollapsed()" 
+      (click)="closeSidenav()"
+    >
       <i class="fal fa-times close-icon"></i>
     </button>
   </div>
@@ -32,6 +55,7 @@
     </li>
   </ul>
 </div>
+
 
 <!-- Main -->
 <div class="body" [ngClass]="sizeClass">

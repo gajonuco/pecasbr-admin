@@ -8,41 +8,22 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class CategoriaServico {
-  
-  constructor(private http: HttpClient){}
 
-    public getAllCategoriasPecas(): Observable<CategoriaPeca[]>{
+  constructor(private http: HttpClient) { }
 
-      return this.http.get<CategoriaPeca[]>(environment.apiURL+"/categoria_by_id");
-    }
+  public getAllCategoriasPecas(): Observable<CategoriaPeca[]> {
+    return this.http.get<CategoriaPeca[]>(environment.apiURL + "/categoria_by_id");
+  }
+  public getById(id: number): Observable<CategoriaPeca> {
+    return this.http.get<CategoriaPeca>(environment.apiURL + "/categoria_peca/" + id)
+  }
 
-   
-    public getById(id: number): Observable<CategoriaPeca>{
-      let token: string = localStorage.getItem("Token") ?? '';
+  public incluirNovaCategoria(categoria: CategoriaPeca) {
+    return this.http.post<CategoriaPeca>(environment.apiURL + "/categoria_peca", categoria);
 
-      let header = {
-        'Authorization':token
-      }
-      return this.http.get<CategoriaPeca>(environment.apiURL+"/categoria_peca/"+ id, {headers: header});
-    }
-    
-    public incluirNovaCategoria(categoria:CategoriaPeca){
+  }
+  public atualizarCategoria(categoria: CategoriaPeca) {
+    return this.http.put<CategoriaPeca>(environment.apiURL + "/categoria_peca", categoria);
 
-      let token: string = localStorage.getItem("Token") ?? '';
-      let header = {
-        'Authorization':token
-      }
-      return this.http.post<CategoriaPeca>(environment.apiURL+"/categoria_peca", categoria, {headers: header});
-
-    }
-
-    public atualizarCategoria(categoria:CategoriaPeca){
-
-      let token: string = localStorage.getItem("Token") ?? '';
-      let header = {
-        'Authorization':token
-      }
-      return this.http.put<CategoriaPeca>(environment.apiURL+"/categoria_peca", categoria, {headers: header});
-
-    }
+  }
 }

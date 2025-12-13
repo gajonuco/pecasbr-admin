@@ -1,33 +1,92 @@
 <div class="container">
-    <div class = "row">
-        <div class="col-12 text-center">
-            <h3>Editor de Categorias</h3>
-        </div>
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h3>Editor de Categorias</h3>
     </div>
+  </div>
 
-    @if(mode == 0){
-    <div class = "row">
+  @if(mode == 0){
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="alert alert-info" role="alert">
+          <i class="pi pi-info-circle me-2"></i>Inserindo nova Categoria
+        </div>
+      </div>
+    </div>
+  }@else {
+    <div class="row mb-3">
         <div class="col-12">
-            <p>Inserindo nova Categoria</p>
+            <div class="alert alert-warning" role="alert">
+                <i class="pi pi-pencil me-2"></i>Editando Categoria
+            </div>
         </div>
     </div>
     }
 
-    <div class = "row">
-        <div class="col-12">
-            <div class="mb-3">
-                <label for="txtNomeCategoria" class="form-label">Nome da Categoria</label>
-                <input type="text" class="form-control" id ="txtNome" [(ngModel)]= "categoria.nome">
-            </div>  
-        </div>
+  <div class="row">
+    <div class="col-12 mb-4">
+      <label for="txtNomeCategoria" class="form-label">Nome da Categoria</label>
+      <input pInputText 
+             type="text" 
+             class="w-100" 
+             id="txtNome" 
+             [(ngModel)]="categoria.nome"
+             placeholder="Ex: Filtros, Óleos, Pastilhas...">
     </div>
-    <div class = "row">
-        <div class="col-6">
-            <button class="btn btn-primary" (click)= "atualizarCategoria()">Atualizar dados</button>
-        </div>
-        <div class = "col-6">
-            <button class= "btn btn-primary" [routerLink]="['/main/categorias']">Voltar</button>
-        </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6 mb-2">
+      <button pButton 
+              label="Atualizar dados" 
+              icon="pi pi-check"
+              class="w-100"
+              (click)="atualizarCategoria()">
+      </button>
     </div>
+    <div class="col-12 col-md-6">
+      <button pButton 
+              label="Voltar" 
+              icon="pi pi-arrow-left"
+              class="p-button-secondary w-100"
+              [routerLink]="['/main/categorias']">
+      </button>
+    </div>
+  </div>
 
 </div>
+
+<!-- TOAST FIXO
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast"
+       class="toast align-items-center border-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error',
+          'bg-warning': toastType === 'warning',
+          'bg-info': toastType === 'info',
+          'text-white': toastType !== 'warning',
+          'text-dark': toastType === 'warning'
+       }">
+
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ mensagemToast }}
+      </div>
+
+      <button type="button"
+              [ngClass]="{
+                'btn-close-white': toastType !== 'warning',
+                'btn-close': toastType === 'warning'
+              }"
+              class="me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close">
+      </button>
+    </div>
+
+  </div>
+</div> -->

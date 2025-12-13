@@ -1,0 +1,402 @@
+#rankingProdutosContainer {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: visible; /* ✅ Garante que nada seja cortado */
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.resumo {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.card-resumo {
+  flex: 1;
+  min-width: 200px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card-resumo.destaque {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.card-resumo .label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.card-resumo .valor {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.filtro-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.filtro-group label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.filtro-group input,
+.filtro-group select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.filtro-acoes {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.btn-aplicar,
+.btn-limpar {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-aplicar {
+  background: #667eea;
+  color: white;
+}
+
+.btn-aplicar:hover:not(:disabled) {
+  background: #5568d3;
+}
+
+.btn-limpar {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.btn-limpar:hover:not(:disabled) {
+  background: #d0d0d0;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Tipo de visualização */
+.tipo-visualizacao {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* ✅ Ajuste para SelectButton do PrimeNG */
+.tipo-visualizacao ::ng-deep .p-selectbutton {
+  display: flex;
+  gap: 0;
+}
+
+.tipo-visualizacao ::ng-deep .p-selectbutton .p-button {
+  flex: 1;
+  padding: 10px 20px;
+}
+
+/* Gráfico */
+.grafico-container {
+  height: 400px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+/* ========================================
+   TABELA DE PRODUTOS - RESPONSIVA
+   ======================================== */
+
+.tabela-produtos {
+  margin-top: 30px;
+  overflow: visible; /* ✅ Garante visibilidade total */
+}
+
+.tabela-produtos h4 {
+  margin-bottom: 15px;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+/* ✅ Força overflow visible na tabela PrimeNG */
+.tabela-produtos ::ng-deep .p-datatable {
+  overflow: visible !important;
+}
+
+.tabela-produtos ::ng-deep .p-datatable-wrapper {
+  overflow: visible !important;
+}
+
+.tabela-produtos ::ng-deep .p-datatable-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Estilos da tabela em desktop */
+.produto-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.produto-info img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.sem-dados {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.sem-dados i {
+  display: block;
+  margin-bottom: 15px;
+}
+
+/* ========================================
+   RESPONSIVO MOBILE
+   ======================================== */
+
+@media (max-width: 768px) {
+  
+  #rankingProdutosContainer {
+    padding: 15px;
+  }
+
+  /* Resumo em coluna */
+  .resumo {
+    flex-direction: column;
+  }
+
+  .card-resumo {
+    min-width: 100%;
+  }
+
+  /* Filtros em coluna */
+  .filtros {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .filtro-group {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .filtro-acoes {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn-aplicar,
+  .btn-limpar {
+    width: 100%;
+  }
+
+  /* Tipo de visualização */
+  .tipo-visualizacao {
+    width: 100%;
+  }
+
+  .tipo-visualizacao ::ng-deep .p-selectbutton {
+    width: 100%;
+  }
+
+  .tipo-visualizacao ::ng-deep .p-selectbutton .p-button {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  /* Gráfico menor */
+  .grafico-container {
+    height: 300px;
+  }
+
+  /* ========================================
+     TABELA RESPONSIVA ESTILO CARD
+     ======================================== */
+
+  /* Oculta cabeçalho da tabela */
+  .tabela-produtos ::ng-deep .p-datatable-thead > tr > th {
+    display: none;
+  }
+
+  /* Cada linha vira um card */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Cada célula em layout grid */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td {
+    display: grid;
+    grid-template-columns: 110px 1fr; /* Label | Conteúdo */
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.75rem 0;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+  }
+
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td:last-child {
+    border-bottom: none;
+  }
+
+  /* Label antes de cada célula */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #1E3A5F;
+    text-align: left;
+    font-size: 0.85rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  /* Conteúdo à direita */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td > * {
+    width: 100%;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    text-align: right;
+    justify-self: end;
+  }
+
+  /* Produto info centralizado em mobile */
+  .produto-info {
+    flex-direction: column;
+    text-align: center;
+    justify-self: center;
+    align-items: center;
+  }
+
+  .produto-info img {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+  }
+
+  .produto-info span {
+    text-align: center;
+    word-break: break-word;
+  }
+
+  /* Tags alinhadas à direita */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td p-tag {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  /* Strong alinhado à direita */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td strong {
+    display: block;
+    text-align: right;
+  }
+
+  /* Remove text-center em mobile */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td.text-center {
+    text-align: right !important;
+  }
+
+  /* Força visibilidade em mobile */
+  .tabela-produtos ::ng-deep .p-datatable,
+  .tabela-produtos ::ng-deep .p-datatable-wrapper,
+  .tabela-produtos ::ng-deep .p-datatable-tbody {
+    overflow: visible !important;
+  }
+}
+
+/* Mobile muito pequeno (< 576px) */
+@media (max-width: 576px) {
+  
+  #rankingProdutosContainer {
+    padding: 10px;
+  }
+
+  .header h3 {
+    font-size: 1.2rem;
+  }
+
+  .card-resumo .valor {
+    font-size: 1.2rem;
+  }
+
+  .grafico-container {
+    height: 250px;
+  }
+
+  /* Tabela ainda menor */
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr {
+    padding: 0.75rem;
+  }
+
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td {
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    grid-template-columns: 100px 1fr;
+  }
+
+  .tabela-produtos ::ng-deep .p-datatable-tbody > tr > td:before {
+    font-size: 0.8rem;
+  }
+
+  .produto-info img {
+    width: 50px;
+    height: 50px;
+  }
+}

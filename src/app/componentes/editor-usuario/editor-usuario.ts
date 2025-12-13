@@ -1,14 +1,24 @@
 import { Component } from '@angular/core';
 import { Usuario } from '../../model/Usuario';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UsuarioServico } from '../../servicos/usuario-servico';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
+import { MessageModule } from 'primeng/message';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-editor-usuario',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule,    CommonModule, RouterLink
+,    FormsModule,
+    InputTextModule,
+    InputNumberModule,
+    CheckboxModule,
+    ButtonModule,MessageModule],
   templateUrl: './editor-usuario.html',
   styleUrl: './editor-usuario.css'
 })
@@ -47,10 +57,10 @@ export class EditorUsuario {
 
   public confereSenha(){
     if(this.senha === this.usuario.senha) {
-      this.mode = 0
+
       this.senhasIguais = true;
     } else{
-      this.mode = 1
+
       this.senhasIguais = false;
 
     }

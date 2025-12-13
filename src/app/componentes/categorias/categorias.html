@@ -1,35 +1,51 @@
-<div class="container-fluid">
-    <div class = "row">
-        <div class ="col-12 text-center">
-            <h3>Gerenciador de Categorias</h3>
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h3>Gerenciador de Categorias</h3>
     </div>
-
-<div class ="row">
-    <div class = "col-12">
-        <button class="btn btn-primary" [routerLink]="['/main/editor-categoria', 'new']">
-        Nova Categoria
-        </button>
-    </div>
+  </div>
 </div>
-<table class="table table-hover table-striped">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nome da Categoria</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for(ITEM of lista; track lista){
-        <tr>
-            <th scope="row">{{ITEM.id}}</th>
-            <td>
-                <a class = "nav-link" [routerLink]="['/main/editor-categoria', ITEM.id]">{{ITEM.nome}}</a>
-            </td>
-        </tr> 
-        }
 
-    </tbody>
-</table>
+<div class="container-fluid">
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <button pButton label="Nova Categoria" icon="pi pi-plus" class="p-button-primary"
+        [routerLink]="['/main/editor-categoria', 'new']">
+      </button>
+    </div>
+  </div>
+
+  <p-table [value]="lista" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
+    [showCurrentPageReport]="true" currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    class="p-datatable-gridlines">
+
+    <!-- Cabeçalho -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+      </tr>
+    </ng-template>
+
+    <!-- Corpo -->
+    <ng-template pTemplate="body" let-ITEM>
+      <tr>
+
+        <td [attr.data-label]="'ID'"  class="text-center">
+          <a class="nav-link" [routerLink]="['/main/editor-categoria', ITEM.id]">
+            {{ ITEM.id }}
+           </a>
+        </td>
+
+        <td [attr.data-label]="'Nome'" >
+          <a class="nav-link" [routerLink]="['/main/editor-categoria', ITEM.id]">
+            {{ ITEM.nome }}
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
 
 </div>

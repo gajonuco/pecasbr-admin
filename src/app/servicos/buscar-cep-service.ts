@@ -11,6 +11,6 @@ export class BuscarCepService {
   constructor(private http: HttpClient){}
 
   public buscarCEP(cep : string): Observable<EntidadeCEP>{
-    return this.http.get<EntidadeCEP>("https://opencep.com/v1/" + cep);
+    return this.http.get<EntidadeCEP>("https://viacep.com.br/ws/" + cep + "/json/");
   }
 }

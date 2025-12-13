@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { ClienteServico } from '../../servicos/cliente-servico';
 import { Cliente } from '../../model/Cliente';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-aniversariantes',
-  imports: [DatePipe],
+  imports: [DatePipe, FormsModule, TableModule, ButtonModule, TagModule ],
   templateUrl: './aniversariantes.html',
   styleUrl: './aniversariantes.css'
 })

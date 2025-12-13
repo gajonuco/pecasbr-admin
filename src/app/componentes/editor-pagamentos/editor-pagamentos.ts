@@ -4,11 +4,24 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormaPagamento } from '../../model/FormaPagamento';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-editor-pagamentos',
-  imports:  [FormsModule, RouterLink, CommonModule],
+    imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    InputTextModule,
+    InputNumberModule,
+    CheckboxModule,
+    ButtonModule
+  ],
   templateUrl: './editor-pagamentos.html',
   styleUrl: './editor-pagamentos.css'
 })

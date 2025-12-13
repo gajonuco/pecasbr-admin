@@ -9,37 +9,21 @@ import { environment } from '../../environments/environment';
 })
 export class UsuarioServico {
 
-      constructor(private http: HttpClient){}
-  
-      public recuperarTodos(): Observable<Usuario[]>{
-        
-        let token: string = localStorage.getItem("Token") ?? '';
-        let header = {'Authorization':token}
-  
-        return this.http.get<Usuario[]>(environment.apiURL+"/usuario", {headers: header});
-      }
+  constructor(private http: HttpClient) { }
 
-      public alterarDados(usuario:Usuario): Observable<Usuario>{
-        
-        let token: string = localStorage.getItem("Token") ?? '';
-        let header = {'Authorization':token}
-  
-          return this.http.put<Usuario>(environment.apiURL+"/usuario/"+ usuario.id, usuario, {headers: header});
-      }
+  public recuperarTodos(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(environment.apiURL + "/usuario");
+  }
 
-      public adicionarUsuario(usuario:Usuario): Observable<Usuario>{
-      
-        let token: string = localStorage.getItem("Token") ?? '';
-        let header = {'Authorization':token}
+  public alterarDados(usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(environment.apiURL + "/usuario/" + usuario.id, usuario);
+  }
 
-          return this.http.post<Usuario>(environment.apiURL+"/usuario", usuario, {headers: header});
-    } 
+  public adicionarUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(environment.apiURL + "/usuario", usuario);
+  }
 
-    public recuperarPeloId(id: number): Observable<Usuario>{
-      
-        let token: string = localStorage.getItem("Token") ?? '';
-        let header = {'Authorization':token}
-
-          return this.http.get<Usuario>(environment.apiURL+"/usuario/"+ id, {headers: header});
-    } 
+  public recuperarPeloId(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(environment.apiURL + "/usuario/" + id);
+  }
 }

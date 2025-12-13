@@ -1,42 +1,153 @@
-<div id="divGeral">
-    <h4>Aniversariantes</h4>
-    <div id="aniversariantes">
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-primary" (click)="aniv(1)">Jan</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(2)">Fev</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(3)">Mar</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(4)">Abr</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(5)">Mai</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(6)">Jun</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(7)">Jul</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(8)">Ago</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(9)">Set</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(10)">Out</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(11)">Nov</button>
-        <button type="button" class="btn btn-primary" (click)="aniv(12)">Dez</button>
-
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h4><i class="pi pi-gift me-2"></i>Aniversariantes</h4>
     </div>
-    <div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="col">Nome</th>
-                    <th class="col">Data</th>
-                    <th class="col">WhatsApp</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for(ITEM of lista; track ITEM.id){
-                    <tr>
-                        <td>{{ITEM.nome}}</td>
-                        <td>{{ITEM.dataNasc| date: 'dd/MM/yyyy'}}</td>
-                        <td>{{ITEM.telefone}}</td>
-                    </tr>
-                }
+  </div>
 
-            </tbody>
-        </table>
+  <!-- Botões de meses -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <button pButton
+                label="Jan"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(1)">
+        </button>
+        <button pButton
+                label="Fev"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(2)">
+        </button>
+        <button pButton
+                label="Mar"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(3)">
+        </button>
+        <button pButton
+                label="Abr"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(4)">
+        </button>
+        <button pButton
+                label="Mai"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(5)">
+        </button>
+        <button pButton
+                label="Jun"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(6)">
+        </button>
+        <button pButton
+                label="Jul"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(7)">
+        </button>
+        <button pButton
+                label="Ago"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(8)">
+        </button>
+        <button pButton
+                label="Set"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(9)">
+        </button>
+        <button pButton
+                label="Out"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(10)">
+        </button>
+        <button pButton
+                label="Nov"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(11)">
+        </button>
+        <button pButton
+                label="Dez"
+                class="p-button-outlined p-button-sm"
+                (click)="aniv(12)">
+        </button>
+      </div>
     </div>
-</div>
+  </div>
+
+  <!-- Tabela de aniversariantes -->
+  <p-table
+    [value]="lista"
+    [paginator]="false"
+    [rows]="3"
+    [rowsPerPageOptions]="[5,10,20]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    class="p-datatable-gridlines">
+
+    <!-- Cabeçalho -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Data</th>
+        <th>WhatsApp</th>
+      </tr>
+    </ng-template>
+
+    <!-- Corpo -->
+    <ng-template pTemplate="body" let-ITEM>
+      <tr>
+        <td>
+          <i class="pi pi-gift text-primary me-2"></i>
+          {{ ITEM.nome }}
+        </td>
+        <td class="text-center">{{ ITEM.dataNasc | date:'dd/MM/yyyy' }}</td>
+        <td class="text-center">{{ ITEM.telefone }}</td>
+      </tr>
+    </ng-template>
+
+    <!-- Template quando não há dados -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3" class="text-center text-muted">
+          Nenhum aniversariante encontrado para este mês
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
 </div>
 
+<!-- TOAST FIXO
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast"
+       class="toast align-items-center border-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error',
+          'bg-warning': toastType === 'warning',
+          'bg-info': toastType === 'info',
+          'text-white': toastType !== 'warning',
+          'text-dark': toastType === 'warning'
+       }">
+
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ mensagemToast }}
+      </div>
+
+      <button type="button"
+              [ngClass]="{
+                'btn-close-white': toastType !== 'warning',
+                'btn-close': toastType === 'warning'
+              }"
+              class="me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close">
+      </button>
+    </div>
+
+  </div>
+</div> -->

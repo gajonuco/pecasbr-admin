@@ -1,91 +1,130 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 text-center">
-            <h3>Editor de Fretes</h3>
-        </div>
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h3>Editor de Fretes</h3>
     </div>
+  </div>
 
-    @if(mode == 0){
-    <div class="row">
+  @if(mode == 0){
+    <div class="row mb-3">
+      <div class="col-12">
+        <div class="alert alert-info" role="alert">
+          <i class="pi pi-info-circle me-2"></i>Inserindo novo Frete
+        </div>
+      </div>
+    </div>
+  }@else {
+    <div class="row mb-3">
         <div class="col-12">
-            <p>Inserindo novo Frete</p>
+            <div class="alert alert-warning" role="alert">
+                <i class="pi pi-pencil me-2"></i>Editando Frete
+            </div>
         </div>
     </div>
     }
 
-    <div class="row">
-        <div class="col-12">
-            <div class="mb-3">
-                <label for="txtPrefixo" class="form-label">Prefixo do CEP</label>
-                <input type="text" maxlength="10" class="form-control" id="txtPrefixo" [(ngModel)]="frete.prefixo">
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-12 mb-3">
+      <label for="txtPrefixo" class="form-label">Prefixo do CEP</label>
+      <input pInputText 
+             type="text" 
+             maxlength="10" 
+             class="w-100" 
+             id="txtPrefixo" 
+             [(ngModel)]="frete.prefixo"
+             placeholder="Ex: 89800">
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="mb-3">
-                <label for="txtDescricao" class="form-label">Descrição</label>
-                <input type="text" class="form-control" id="txtDescricao" [(ngModel)]="frete.descricao">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="txtValor" class="form-label">Valor R$</label>
-                <input type="number" class="form-control" id="txtValor" [(ngModel)]="frete.valor">
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="txtDisponivel" class="form-label">Disponível</label>
-                <div class="form-control text-center">
-                    <input type="checkbox" id="txtDisponivel" [(ngModel)]="disponivel">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-            <button class="btn btn-primary" (click)="atualizarFrete();">Atualizar Dados</button>
-        </div>
-        <div class="col-6">
-            <a class="btn btn-primary" routerLink='/fretes'>Voltar</a>
-        </div>
-    </div>
-
-
-</div>
-
-    <!-- Toast fixo -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-<!-- No seu template HTML -->
-<div id="liveToast"
-     class="toast align-items-center border-0"
-     role="alert"
-     aria-live="assertive"
-     aria-atomic="true"
-     [ngClass]="{
-        'bg-success': toastType === 'success',
-        'bg-danger': toastType === 'error',
-        'bg-warning': toastType === 'warning',
-        'bg-info': toastType === 'info',
-        'text-white': toastType !== 'warning',
-        'text-dark': toastType === 'warning'
-     }">
-  <div class="d-flex">
-    <div class="toast-body">
-      {{ mensagemToast }}
-    </div>
-    <button type="button"
-            [ngClass]="{
-               'btn-close-white': toastType !== 'warning',
-               'btn-close': toastType === 'warning'
-            }"
-            class="me-2 m-auto"
-            data-bs-dismiss="toast"
-            aria-label="Close"></button>
   </div>
+
+  <div class="row">
+    <div class="col-12 mb-3">
+      <label for="txtDescricao" class="form-label">Descrição</label>
+      <input pInputText 
+             type="text" 
+             class="w-100" 
+             id="txtDescricao" 
+             [(ngModel)]="frete.descricao"
+             placeholder="Ex: Região Sul de SC">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <label for="txtValor" class="form-label">Valor R$</label>
+      <p-inputNumber 
+        [(ngModel)]="frete.valor"
+        mode="currency" 
+        currency="BRL" 
+        locale="pt-BR"
+        [minFractionDigits]="2"
+        class="w-100">
+      </p-inputNumber>
+    </div>
+
+    <div class="col-12 col-md-6 mb-3">
+      <label for="txtDisponivel" class="form-label">Disponível</label>
+      <div class="form-control text-center">
+        <p-checkbox 
+          [(ngModel)]="disponivel" 
+          [binary]="true"
+          inputId="txtDisponivel">
+        </p-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-12 col-md-6 mb-2">
+      <button pButton 
+              label="Atualizar Dados" 
+              icon="pi pi-check"
+              class="w-100"
+              (click)="atualizarFrete()">
+      </button>
+    </div>
+    <div class="col-12 col-md-6">
+      <button pButton 
+              label="Voltar" 
+              icon="pi pi-arrow-left"
+              class="p-button-secondary w-100"
+              routerLink="/main/fretes">
+      </button>
+    </div>
+  </div>
+
 </div>
+
+<!-- TOAST FIXO -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast"
+       class="toast align-items-center border-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error',
+          'bg-warning': toastType === 'warning',
+          'bg-info': toastType === 'info',
+          'text-white': toastType !== 'warning',
+          'text-dark': toastType === 'warning'
+       }">
+
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ mensagemToast }}
+      </div>
+
+      <button type="button"
+              [ngClass]="{
+                'btn-close-white': toastType !== 'warning',
+                'btn-close': toastType === 'warning'
+              }"
+              class="me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close">
+      </button>
+    </div>
+
+  </div>
 </div>

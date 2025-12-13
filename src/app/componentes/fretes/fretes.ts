@@ -1,14 +1,17 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Frete } from '../../model/Frete';
 import { FreteService } from '../../servicos/frete-service';
 import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-fretes',
-  imports: [RouterLink, DecimalPipe, FormsModule],
+  imports: [RouterLink, DecimalPipe, FormsModule, TableModule, ButtonModule, TagModule, CurrencyPipe ],
   templateUrl: './fretes.html',
   styleUrl: './fretes.css'
 })

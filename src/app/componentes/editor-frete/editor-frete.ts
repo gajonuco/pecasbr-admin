@@ -2,13 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Frete } from '../../model/Frete';
 import { FreteService } from '../../servicos/frete-service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TagModule } from 'primeng/tag';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-editor-frete',
-  imports: [FormsModule, CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    InputTextModule,
+    InputNumberModule,
+    CheckboxModule,
+    ButtonModule
+  ],
   templateUrl: './editor-frete.html',
   styleUrl: './editor-frete.css'
 })
@@ -67,7 +81,7 @@ export class EditorFrete implements OnInit {
           this.mensagemToast = "Frete inserido com sucesso!"
           this.toastType = 'success'
           this.mostrarToast();
-          setTimeout(() =>{ this.router.navigate(['main/fretes'])}, 1500)
+          setTimeout(() =>{ this.router.navigate(['main/fretes'])}, 2000)
 
         },
         error: (err: any) => {
@@ -75,7 +89,7 @@ export class EditorFrete implements OnInit {
             this.mensagemToast = "Sessão expirada! Tente fazer login novamente."
             this.toastType = 'error'
             localStorage.removeItem("Token");
-            setTimeout(() =>{ this.router.navigate(['/'])}, 1500)
+            setTimeout(() =>{ this.router.navigate(['/'])}, 2000)
           }
           else if (err.status == 400){
             this.mensagemToast = "Erro! Verifique se prefixo está em uso"
@@ -91,11 +105,12 @@ export class EditorFrete implements OnInit {
        next: (res: Frete) => {
           this.mensagemToast = "Frete atualizado com sucesso!"
           this.toastType = 'info'
-          setTimeout(() =>{ this.router.navigate(['/fretes'])}, 1500)
+          this.mostrarToast()
+          setTimeout(() =>{ this.router.navigate(['main/fretes'])}, 2000)
         },
         error: (err: any) => {
           localStorage.removeItem("Token");
-          setTimeout(() =>{ this.router.navigate(['/'])}, 1500)
+          setTimeout(() =>{ this.router.navigate(['/'])}, 2000)
         }
     });
 

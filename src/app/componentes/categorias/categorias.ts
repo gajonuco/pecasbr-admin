@@ -2,10 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { CategoriaServico } from '../../servicos/categoria-servico';
 import { Router, RouterLink } from '@angular/router';
 import { CategoriaPeca } from '../../model/CategoriaPeca';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from "primeng/table";
 
 @Component({
   selector: 'app-categorias',
-  imports: [RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    InputTextModule,
+    InputNumberModule,
+    CheckboxModule,
+    ButtonModule,
+    TableModule
+],
   templateUrl: './categorias.html',
   styleUrl: './categorias.css'
 })

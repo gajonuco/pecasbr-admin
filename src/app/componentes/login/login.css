@@ -3,6 +3,18 @@ body {
   height: 100%;
 }
 
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+}
+#background{
+    height: 100%;
+    width: 100%;
+}
+
 .form-signin {
   max-width: 400px;
   padding: 1rem;

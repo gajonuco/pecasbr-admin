@@ -1,5 +1,3 @@
-
-
 <div class="container">
   <div class="row">
     <div class="col-12 text-center">
@@ -9,97 +7,107 @@
 </div>
 
 <div class="container-fluid">
-   <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table" id="tblFinanceiro">
-    <thead>
+
+  <p-table 
+    [value]="lista"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[5,10,20]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    class="p-datatable-gridlines">
+
+    <!-- Cabeçalho -->
+    <ng-template pTemplate="header">
       <tr>
-        <th scope="col">SEQ</th>
-        <th scope="col">Pedido</th>
-        <th scope="col">Cliente</th>
-        <th scope="col">Whatsapp</th>
-        <th scope="col">Parcela</th>
-        <th scope="col">Vencimento</th>
-        <th scope="col">Valor Bruto</th>
-        <th scope="col">Forma Pgto</th>
-        <th scope="col">Retenção</th>
-        <th scope="col">Valor Retenção</th>
-        <th scope="col">Valor a Receber</th>
-        <th scope="col">Status</th>
-        <th scope="col">Ação</th>
+        <th>SEQ</th>
+        <th>Pedido</th>
+        <th>Cliente</th>
+        <th>Whatsapp</th>
+        <th>Parcela</th>
+        <th>Vencimento</th>
+        <th>Valor Bruto</th>
+        <th>Forma Pgto</th>
+        <th>Retenção</th>
+        <th>Valor Retenção</th>
+        <th>A Receber</th>
+        <th>Status</th>
+        <th>Ação</th>
       </tr>
-    </thead>
+    </ng-template>
 
-    <tbody>
-      @for (ITEM of lista; track ITEM.numSeq) {
-        <tr>
-          <td class="text-center" scope="row">{{ ITEM.numSeq }}</td>
-          <td class="text-center">{{ ITEM.idPedido }}</td>
-          <td class="text-center">{{ ITEM.nomeCliente }}</td>
-          <td class="text-center">{{ ITEM.telefone }}</td>
-          <td class="text-center">{{ ITEM.numParcela }} de {{ ITEM.totalParcelas }}</td>
-          <td class="text-center">{{ ITEM.dataVencimento | date: 'dd/MM/yyyy' }}</td>
-          <td class="text-center">{{ ITEM.valorBruto | currency: 'BRL' }}</td>
-          <td class="text-center">{{ ITEM.idFormaPagamento }} - {{ ITEM.formaPagamento }}</td>
-          <td class="text-center">{{ ITEM.percentRetencao }} %</td>
-          <td class="text-center">{{ ITEM.valorRetencao | currency: 'BRL' }}</td>
-          <td class="text-center">{{ ITEM.valorReceber | currency: 'BRL' }}</td>
+    <!-- Corpo -->
+    <ng-template pTemplate="body" let-ITEM>
+      <tr>
+        <td [attr.data-label]="'SEQ'"  class="text-center">{{ ITEM.numSeq }}</td>
+        <td [attr.data-label]="'Pedido'"  class="text-center">{{ ITEM.idPedido }}</td>
+        <td [attr.data-label]="'Cliente'"  class="text-center">{{ ITEM.nomeCliente }}</td>
+        <td [attr.data-label]="'WhatsApp'" class="text-center">{{ ITEM.telefone }}</td>
+        <td [attr.data-label]="'Parcela'"  class="text-center">{{ ITEM.numParcela }} de {{ ITEM.totalParcelas }}</td>
+        <td [attr.data-label]="'Vencimento'" class="text-center">{{ ITEM.dataVencimento | date:'dd/MM/yyyy' }}</td>
+        <td [attr.data-label]="'Valor Bruto'" class="text-center">{{ ITEM.valorBruto | currency:'BRL' }}</td>
+        <td [attr.data-label]="'Forma de Pgto'" class="text-center">{{ ITEM.idFormaPagamento }} - {{ ITEM.formaPagamento }}</td>
+        <td [attr.data-label]="'Retenção'"  class="text-center">{{ ITEM.percentRetencao }} %</td>
+        <td [attr.data-label]="'A Retenção'" class="text-center">{{ ITEM.valorRetencao | currency:'BRL' }}</td>
+        <td [attr.data-label]="'A Receber'" class="text-center">{{ ITEM.valorReceber | currency:'BRL' }}</td>
 
-          <td class="text-center">
-            @if (ITEM.status == 0) {
-              <span class="pendente">PEND</span>
-            } @else if (ITEM.status == 1) {
-              <span class="pago">PAGO</span>
-            } @else if (ITEM.status == -1) {
-              <i class="far fa-trash-alt"></i>
-            }
-          </td>
+        <td [attr.data-label]="'Status'" class="text-center">
+          @if(ITEM.status == 0){
+            <p-tag severity="warn" value="Atrasado"></p-tag>
+          }@else if (ITEM.status == 1) {
+            <p-tag severity="success" value="PAGO"></p-tag>
+          }@else if (ITEM.status == -1) {
+            <i class="pi pi-trash"></i>
+          }
+        </td>
 
-          <td>
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-outline-primary" (click)="alterarStatus(ITEM,1)">
-                <i class="fas fa-check-circle"></i>
-              </button>
-              <button type="button" class="btn btn-outline-primary" (click)="alterarStatus(ITEM,0)">
-                <i class="fas fa-undo"></i>
-              </button>
-              <button type="button" class="btn btn-outline-primary" (click)="alterarStatus(ITEM,-1)">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+        <td [attr.data-label]="'Ação'"  class="text-center">
+          <button pButton icon="pi pi-check-circle" class="p-button-text" (click)="alterarStatus(ITEM,1)"></button>
+          <button pButton icon="pi pi-refresh" class="p-button-text" (click)="alterarStatus(ITEM,0)"></button>
+          <button pButton icon="pi pi-trash" class="p-button-text" (click)="alterarStatus(ITEM,-1)"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
 </div>
 
-    <!-- Toast fixo -->
+
+<!-- TOAST FIXO -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-<!-- No seu template HTML -->
-<div id="liveToast"
-     class="toast align-items-center border-0"
-     role="alert"
-     aria-live="assertive"
-     aria-atomic="true"
-     [ngClass]="{
-        'bg-success': toastType === 'success',
-        'bg-danger': toastType === 'error',
-        'bg-warning': toastType === 'warning',
-        'bg-info': toastType === 'info',
-        'text-white': toastType !== 'warning',
-        'text-dark': toastType === 'warning'
-     }">
-  <div class="d-flex">
-    <div class="toast-body">
-      {{ mensagemToast }}
+
+  <div id="liveToast"
+       class="toast align-items-center border-0"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="true"
+       [ngClass]="{
+          'bg-success': toastType === 'success',
+          'bg-danger': toastType === 'error',
+          'bg-warning': toastType === 'warning',
+          'bg-info': toastType === 'info',
+          'text-white': toastType !== 'warning',
+          'text-dark': toastType === 'warning'
+       }">
+
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ mensagemToast }}
+      </div>
+
+      <button type="button"
+              [ngClass]="{
+                'btn-close-white': toastType !== 'warning',
+                'btn-close': toastType === 'warning'
+              }"
+              class="me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close">
+      </button>
+
     </div>
-    <button type="button"
-            [ngClass]="{
-               'btn-close-white': toastType !== 'warning',
-               'btn-close': toastType === 'warning'
-            }"
-            class="me-2 m-auto"
-            data-bs-dismiss="toast"
-            aria-label="Close"></button>
+
   </div>
-</div>
+
 </div>

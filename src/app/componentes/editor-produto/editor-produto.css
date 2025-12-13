@@ -4,3 +4,80 @@
     margin-bottom: 2em;
 
 }
+
+/* Adicione ao seu editor-produto.css existente */
+
+/* Destaque visual para campos com erro */
+:host ::ng-deep .ng-invalid.ng-dirty .p-inputnumber-input {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Animação suave para mensagens de erro */
+small.text-danger {
+    animation: fadeInError 0.3s ease-in;
+}
+
+@keyframes fadeInError {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para o alerta geral de validação */
+.alert-danger {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Tooltip estilizado nos ícones de informação */
+[title] {
+    cursor: help;
+}
+
+/* Botão desabilitado mais visível */
+button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Destaque para o campo de estoque crítico (campo principal) */
+#txtEstoqueCritico {
+    font-weight: 500;
+}
+
+:host ::ng-deep #txtEstoqueCritico .p-inputnumber-input {
+    background-color: #fff8e1;
+    font-weight: 500;
+}
+
+/* Campos de leitura/atualização automática com indicador visual */
+:host ::ng-deep #txtEstoqueMinimo .p-inputnumber-input,
+:host ::ng-deep #txtQuantidadeEstoque .p-inputnumber-input {
+    background-color: #f8f9fa;
+}
+
+/* Transição suave nos campos */
+:host ::ng-deep .p-inputnumber-input {
+    transition: all 0.3s ease;
+}
+
+/* Destaque quando campo é atualizado automaticamente */
+@keyframes pulseUpdate {
+    0%, 100% { background-color: #f8f9fa; }
+    50% { background-color: #d4edda; }
+}
+
+.campo-atualizado :host ::ng-deep .p-inputnumber-input {
+    animation: pulseUpdate 0.6s ease;
+}

@@ -2,14 +2,27 @@ import { Component } from '@angular/core';
 
 import { Usuario } from '../../model/Usuario';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { UsuarioServico } from '../../servicos/usuario-servico';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { CheckboxModule } from 'primeng/checkbox';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-usuarios',
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [    CommonModule,
+    FormsModule,
+    RouterLink,
+    CKEditorModule,
+    InputTextModule,
+    InputNumberModule,
+    CheckboxModule,
+    ButtonModule, TableModule],
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.css'
 })

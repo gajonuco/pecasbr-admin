@@ -2,10 +2,14 @@ import { Component } from '@angular/core';
 import { FormaPagamento } from '../../model/FormaPagamento';
 import { FormapagamentoService } from '../../servicos/formapagamento-service';
 import { Router, RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { TagModule } from 'primeng/tag';
+import { ButtonModule } from 'primeng/button';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-pagamentos',
-  imports: [RouterLink],
+  imports: [ TableModule, ButtonModule, TagModule, RouterLink ],
   templateUrl: './pagamentos.html',
   styleUrl: './pagamentos.css'
 })

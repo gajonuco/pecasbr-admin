@@ -1,4 +1,4 @@
-    <!-- Toast fixo -->
+<!-- Toast fixo -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
   <div id="liveToast"
        class="toast align-items-center text-white border-0"
@@ -13,32 +13,51 @@
       <div class="toast-body">
         {{ mensagemToast }}
       </div>
-      <button type="button"
+      <button type="button" 
               class="btn-close btn-close-white me-2 m-auto"
               data-bs-dismiss="toast"
               aria-label="Close"></button>
     </div>
   </div>
 </div>
-    
-    <div id= "background">
-        <main class="form-signin w-100 m-auto">
-      <div class= "d-flex justify-content-center mb-3">
-                    <img id="imagem" class= "d-flex justify-content-center" src="logo_autopecas.png"  alt="" w height="57">
-                </div>
-            <p class="h4 mb-3 fw-normal text-center" >Área Administrativa</p>
 
-            <div class="form-floating"> 
-                <input type="text" class="form-control" id="floatingInput" [(ngModel)] = "usuario.username">
-                 <label for="floatingInput">Seu login</label>
-            </div>
-
-            <div class="form-floating">
-                 <input type="password" class="form-control" id="floatingPassword"placeholder="Password" [(ngModel)] = "usuario.senha">
-                  <label for="floatingPassword">Sua senha</label>
-            </div>
-            <button class="btn btn-primary w-100 py-2" (click)="autenticar()">Conectar-se</button>
-        
-    </main>
-
+<div id="background">
+  <main class="form-signin w-100 m-auto">
+    <div class="d-flex justify-content-center mb-3">
+      <img id="imagem" src="logo_autopecas.png" height="57">
     </div>
+
+    <p class="h4 mb-3 fw-normal text-center">Área Administrativa</p>
+
+    <div class="form-floating">
+      <input type="text"
+             class="form-control"
+             id="floatingInput"
+             [(ngModel)]="usuario.username"
+             (input)="aoDigitar()">
+      <label for="floatingInput">Seu login</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="password"
+             class="form-control"
+             id="floatingPassword"
+             [(ngModel)]="usuario.senha"
+             (input)="aoDigitar()">
+      <label for="floatingPassword">Sua senha</label>
+    </div>
+
+    <button class="btn btn-primary w-100 py-2" (click)="autenticar()">
+      Conectar-se
+    </button>
+
+    @if (src && msgAlert) {
+      <div class="mt-3">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Erro!</strong> {{ msgAlert }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      </div>
+    }
+  </main>
+</div>

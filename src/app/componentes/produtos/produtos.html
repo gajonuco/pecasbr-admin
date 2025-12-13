@@ -1,109 +1,261 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 text-center">
-            <h3>Gerenciador de Produtos</h3>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <button class="btn btn-primary" [routerLink]="['/main/editor-produto', 'new']">
-                Novo Produto
-            </button>
-        </div>
-    </div>
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Foto</th>
-                <th scope="col">Nome do Produto</th>
-                <th scope="col">Preço</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Disponível</th>
-                <th scope="col">Pronta Entrega</th>
-                <th scope="col">Em Destaque</th>
-                <th scope="col">Compradores</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @for(ITEM of lista; track lista){
-            <tr>
-                <th scope="row">{{ITEM.id}}</th>
-                <td style="width: 100px; height: 100px; text-align: center; vertical-align: middle;">
-                    <img src="{{ITEM.linkFoto}}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                </td>
-
-                <td>
-                    <a class = "nav-link" [routerLink]="['/main/editor-produto', ITEM.id]">{{ITEM.nome}}</a>
-                </td>
-                <td><a>{{ITEM.preco}}</a></td>
-                <td><a>{{ITEM.categoriaPeca.nome}}</a></td>
-                <td>
-                <div class="d-flex justify-content-center form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkDisponibiliza" [(ngModel)] ="ITEM.disponivel" (change) ="disponibiliza(ITEM)" >
-                    <label class="form-check-label" for="switchCheckChecked"></label>
-                </div>
-                </td>
-                <td>
-                <div class="d-flex justify-content-center form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkProntaEntrega" [(ngModel)] ="ITEM.prontaEntrega" (change) ="prontaEntrega(ITEM)" >
-                    <label class="form-check-label" for="switchCheckChecked"></label>
-                </div>
-                </td>
-                <td>
-                <div class="d-flex justify-content-center form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkDestaque" [(ngModel)] = "ITEM.destaque" (change)= "destaca(ITEM)">
-                    <label class="form-check-label" for="switchCheckDefault"></label>
-                </div>
-                </td>
-                  <td><i class="fa fa-users d-flex justify-content-center" (click)="buscarCompradores(ITEM.id)"></i></td>
-            </tr>
-            }
-        </tbody>
-    </table>
-
-</div>
-
-<!-- Button trigger modal -->
-<button type="button" style="visibility:hidden" id="btnModal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Compradores</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-            <div class = table>
-                <thead>
-                    <tr>
-                        <th class="col">Nome</th>
-                        <th class="col">WhatsApp</th>
-                        <th class="col">E-mail</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for(ITEM of compradores; track compradores){
-                        <tr>
-                        <td scope="col">{{ITEM.nome}}</td>
-                        <td scope="col">{{ITEM.telefone}}</td>
-                        <td scope="col">{{ITEM.email}}</td>
-                        </tr>
-
-                    }
-                </tbody>
-            </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h3>Gerenciador de Produtos</h3>
     </div>
   </div>
 </div>
+
+<div class="container-fluid">
+  
+  <div class="row mb-3 align-items-center">
+    <div class="col-12 col-md-4 mb-2">
+      <button pButton 
+              label="Novo Produto" 
+              icon="pi pi-plus" 
+              class="p-button-primary"
+              [routerLink]="['/main/editor-produto', 'new']">
+      </button>
+    </div>
+    
+    <div class="col-12 col-md-8 mb-2">
+      <div class="p-inputgroup" style="width: 100%;">
+        <span class="p-inputgroup-addon">
+        </span>
+        <input pInputText 
+               type="text"
+               style="width: 100%;"  
+               (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
+               placeholder="Buscar por nome, categoria ou ID..." />
+      </div>
+    </div>
+  </div>
+
+  <p-table 
+    #dt
+    [value]="lista"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[5,10,20]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    [globalFilterFields]="['nome', 'categoriaPeca.nome', 'id']"
+    class="p-datatable-gridlines">
+
+    <!-- Cabeçalho -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Foto</th>
+        <th>Nome do Produto</th>
+        <th>Preço</th>
+        <th>Categoria</th>
+        <th>Estoque</th>
+        <th>Disponível</th>
+        <th>Pronta Entrega</th>
+        <th>Em Destaque</th>
+        <th>Compradores</th>
+      </tr>
+    </ng-template>
+
+    <!-- Corpo -->
+    <ng-template pTemplate="body" let-ITEM>
+      <tr [ngClass]="getEstoqueStatusClass(ITEM)">
+        <td [attr.data-label]="'ID'" class="text-center">{{ ITEM.id }}</td>
+        
+        <td [attr.data-label]="'Foto'" class="text-center" style="width: 100px;">
+          <a class="nav-link" [routerLink]="['/main/editor-produto', ITEM.id]">
+            <img [src]="ITEM.linkFoto" 
+                 style="max-width: 80px; max-height: 80px; object-fit: contain;"
+                 [alt]="ITEM.nome">
+          </a>
+        </td>
+
+        <td [attr.data-label]="'Nome do Produto'">
+          <a class="nav-link" [routerLink]="['/main/editor-produto', ITEM.id]">
+            {{ ITEM.nome }}
+          </a>
+        </td>
+
+        <td [attr.data-label]="'Preço'" class="text-center">
+          {{ ITEM.preco | currency:'BRL' }}
+        </td>
+        
+        <td [attr.data-label]="'Categoria'" class="text-center">
+          {{ ITEM.categoriaPeca.nome }}
+        </td>
+
+        <!-- NOVA COLUNA DE ESTOQUE -->
+        <td [attr.data-label]="'Estoque'" class="text-center">
+          <span class="badge-estoque" [ngClass]="getEstoqueStatusClass(ITEM)">
+            {{ getEstoqueMensagem(ITEM) }}
+          </span>
+        </td>
+
+        <!-- Switch DISPONÍVEL com validação -->
+        <td [attr.data-label]="'Disponível'" class="text-center">
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <div class="form-check form-switch">
+              <input class="form-check-input" 
+                     type="checkbox" 
+                     role="switch" 
+                     [checked]="ITEM.disponivel === 1"
+                     (change)="disponibiliza(ITEM, $event)"
+                     [id]="'switch-disponivel-' + ITEM.id">
+            </div>
+            @if(isProdutoSemEstoque(ITEM) && ITEM.disponivel === 0) {
+              <small class="text-danger mt-1">
+                <i class="pi pi-exclamation-triangle" style="font-size: 0.7rem;"></i>
+                Sem estoque
+              </small>
+            }
+          </div>
+        </td>
+
+        <!-- Switch PRONTA ENTREGA (sem validação) -->
+        <td [attr.data-label]="'Pronta Entrega'" class="text-center">
+          <div class="d-flex justify-content-center form-check form-switch">
+            <input class="form-check-input" 
+                   type="checkbox" 
+                   role="switch" 
+                   [checked]="ITEM.prontaEntrega === 1"
+                   (change)="prontaEntrega(ITEM, $event)"
+                   [id]="'switch-pronta-' + ITEM.id">
+          </div>
+        </td>
+
+        <!-- Switch DESTAQUE com validação -->
+        <td [attr.data-label]="'Em Destaque'" class="text-center">
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <div class="form-check form-switch">
+              <input class="form-check-input" 
+                     type="checkbox" 
+                     role="switch" 
+                     [checked]="ITEM.destaque === 1"
+                     (change)="destaca(ITEM, $event)"
+                     [id]="'switch-destaque-' + ITEM.id">
+            </div>
+            @if(isProdutoSemEstoque(ITEM) && ITEM.destaque === 0) {
+              <small class="text-danger mt-1">
+                <i class="pi pi-exclamation-triangle" style="font-size: 0.7rem;"></i>
+                Sem estoque
+              </small>
+            }
+          </div>
+        </td>
+
+        <td [attr.data-label]="'Compradores'" class="text-center">
+          <button pButton 
+                  icon="pi pi-users" 
+                  class="p-button-text p-button-info"
+                  (click)="buscarCompradores(ITEM.id)"
+                  pTooltip="Ver Compradores"
+                  tooltipPosition="top">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <!-- Template quando não há resultados -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="10" class="text-center text-muted py-5">
+          <i class="pi pi-search" style="font-size: 3rem; opacity: 0.3;"></i>
+          <p class="mt-3 mb-0">Nenhum produto encontrado</p>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+</div>
+
+<!-- Toast para notificações -->
+<p-toast position="top-right" [life]="5000"></p-toast>
+
+<!-- Modal de Compradores - PrimeNG -->
+<p-dialog 
+  [(visible)]="displayCompradores" 
+  [modal]="true" 
+  [style]="{width: '90vw', maxWidth: '800px'}" 
+  [draggable]="false" 
+  [resizable]="false"
+  styleClass="modal-compradores"
+  [maximizable]="true">
+  
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-users"></i>
+      <span>Compradores</span>
+    </div>
+  </ng-template>
+
+  <div class="modal-body-content">
+    <p-table 
+      [value]="compradores"
+      [paginator]="compradores.length > 10"
+      [rows]="10"
+      [rowsPerPageOptions]="[5,10,20]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{first} a {last} de {totalRecords} compradores"
+      [tableStyle]="{ 'min-width': '100%' }"
+      styleClass="p-datatable-gridlines p-datatable-striped"
+      responsiveLayout="scroll">
+
+      <!-- Cabeçalho -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th>WhatsApp</th>
+          <th>E-mail</th>
+        </tr>
+      </ng-template>
+
+      <!-- Corpo -->
+      <ng-template pTemplate="body" let-ITEM>
+        <tr>
+          <td [attr.data-label]="'Nome'">
+            <i class="pi pi-user me-2" style="color: #00ADB5;"></i>
+            {{ ITEM.nome }}
+          </td>
+          
+          <td [attr.data-label]="'WhatsApp'">
+            <a [href]="'https://wa.me/55' + limparTelefone(ITEM.telefone)" 
+               target="_blank"
+               class="whatsapp-link">
+              <i class="pi pi-whatsapp me-2"></i>
+              {{ ITEM.telefone }}
+            </a>
+          </td>
+          
+          <td [attr.data-label]="'E-mail'">
+            <a [href]="'mailto:' + ITEM.email" class="email-link">
+              <i class="pi pi-envelope me-2"></i>
+              {{ ITEM.email }}
+            </a>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- Mensagem quando vazio -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="3" class="text-center py-5">
+            <i class="pi pi-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
+            <p class="mt-3 mb-0 text-muted">Nenhum comprador encontrado</p>
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton 
+            label="Fechar" 
+            icon="pi pi-times" 
+            class="p-button-secondary" 
+            (click)="displayCompradores = false">
+    </button>
+  </ng-template>
+</p-dialog>

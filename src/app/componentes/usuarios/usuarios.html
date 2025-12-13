@@ -1,66 +1,76 @@
-    <!-- Toast fixo -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-  <div id="liveToast"
-       class="toast align-items-center text-white border-0"
-       role="alert"
-       aria-live="assertive"
-       aria-atomic="true"
-       [ngClass]="{
-          'bg-success': toastType === 'success',
-          'bg-danger': toastType === 'error'
-       }">
-    <div class="d-flex">
-      <div class="toast-body">
-        {{ mensagemToast }}
-      </div>
-      <button type="button"
-              class="btn-close btn-close-white me-2 m-auto"
-              data-bs-dismiss="toast"
-              aria-label="Close"></button>
+<!-- Título -->
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h3>Gerenciador de Usuários</h3>
     </div>
   </div>
 </div>
 
-
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 text-center">
-            <h3>Gerenciador de Usuários</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <button class="btn btn-primary mb-3" [routerLink]="['/main/editor-usuario/', 'new']">
-                Adicionar novo usuário
-            </button>
-        </div>
-    </div>
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Username </th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Ativo</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            @for(USER of lista; track lista){
-              <tr>
-                <td scope="row"><a>{{USER.id}}</a></td>
-                <td><a class = "nav-link" [routerLink]="['/main/editor-usuario', USER.id]">{{USER.nome_usuario}}</a></td>
-                <td><a>{{USER.username}}</a></td>
-                <td><a>{{USER.email}}</a></td>
-                <td>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="checkAtivo" [(ngModel)] ="USER.ativo" (change) ="mudaStatus(USER)" >
-                    <label class="form-check-label" for="switchCheckChecked"></label>
-                </div>
-                </td>
-              </tr>
+  <!-- Botão Novo -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <button pButton 
+              label="Novo Usuário" 
+              icon="pi pi-plus" 
+              class="p-button-primary"
+              [routerLink]="['/main/editor-usuario', 'new']">
+      </button>
+    </div>
+  </div>
 
-            }
-        </tbody>
-    </table>
+  <!-- Tabela estilo produtos -->
+  <p-table 
+    [value]="lista"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[5,10,20]"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    class="p-datatable-gridlines">
+
+    <!-- Cabeçalho -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center">ID</th>
+        <th>Nome</th>
+        <th>Username</th>
+        <th>E-mail</th>
+        <th class="text-center">Ativo</th>
+      </tr>
+    </ng-template>
+
+    <!-- Corpo -->
+    <ng-template pTemplate="body" let-u>
+      <tr>
+
+        <td [attr.data-label]="'ID'" class="text-center">{{ u.id }}</td>
+
+        <td [attr.data-label]="'Nome'" >
+          <a class="nav-link" [routerLink]="['/main/editor-usuario', u.id]">
+            {{ u.nome_usuario }}
+          </a>
+        </td>
+
+        <td [attr.data-label]="'Login'" >{{ u.username }}</td>
+
+        <td [attr.data-label]="'E-mail'" >{{ u.email }}</td>
+
+        <td [attr.data-label]="'Ativo'" class="text-center">
+          <div class="d-flex justify-content-center form-check form-switch">
+            <input class="form-check-input"
+                   type="checkbox"
+                   role="switch"
+                   [(ngModel)]="u.ativo"
+                   (change)="mudaStatus(u)">
+          </div>
+        </td>
+
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+</div>
