@@ -110,7 +110,7 @@ export class EditorProduto {
               }
             });
           },
-          error: (err) => {
+          error: (err: any) => {
             if (err.status == 404) {
               // Tratar erro 404
             } else {
@@ -129,10 +129,10 @@ export class EditorProduto {
     if (this.peca.estoqueCritico !== null && this.peca.estoqueCritico !== undefined) {
       // Atualiza estoque mínimo (crítico + 2)
       this.peca.estoqueMinimo = this.peca.estoqueCritico + 2;
-      
+
       // Atualiza quantidade estoque (mínimo + 2)
       this.peca.quantidadeEstoque = this.peca.estoqueMinimo + 2;
-      
+
       // Valida após atualização automática
       this.validarEstoque();
     }
@@ -161,17 +161,17 @@ export class EditorProduto {
     this.formularioValido = true;
 
     // Validação 1: Estoque Mínimo não pode ser menor que Estoque Crítico
-    if (this.peca.estoqueMinimo !== null && 
-        this.peca.estoqueCritico !== null &&
-        this.peca.estoqueMinimo <= this.peca.estoqueCritico ) {
+    if (this.peca.estoqueMinimo !== null &&
+      this.peca.estoqueCritico !== null &&
+      this.peca.estoqueMinimo <= this.peca.estoqueCritico) {
       this.erroEstoqueMinimo = 'O estoque mínimo não pode ser menor ou igual que o estoque crítico.';
       this.formularioValido = false;
     }
 
     // Validação 2: Quantidade Estoque não pode ser menor que Estoque Mínimo
-    if (this.peca.quantidadeEstoque !== null && 
-        this.peca.estoqueMinimo !== null &&
-        this.peca.quantidadeEstoque <= this.peca.estoqueMinimo) {
+    if (this.peca.quantidadeEstoque !== null &&
+      this.peca.estoqueMinimo !== null &&
+      this.peca.quantidadeEstoque <= this.peca.estoqueMinimo) {
       this.erroQuantidadeEstoque = 'A quantidade de estoque não pode ser menor ou igual que o estoque mínimo registrado.';
       this.formularioValido = false;
     }
@@ -196,11 +196,19 @@ export class EditorProduto {
     this.servicoProduto.uploadFoto(formData).subscribe({
       next: (res: PathDTO) => {
         this.peca.linkFoto = "https://projetoreal.dev.br/assets/img/" + res.pathToFile;
+
+        // this.peca.linkFoto = `assets/img/${res.pathToFile}`;
+
         console.log("Upload concluído:", res);
         console.log(this.peca.linkFoto);
       },
-      error: (err) => {
-        console.error("Erro no upload:", err);
+      error: (err: any) => {
+        if (err.status = 413) {
+          this.mensagemToast = "T";
+          this.toastType = 'error';
+          this.mostrarToast();
+          return;
+        }
       }
     });
   }
@@ -216,7 +224,7 @@ export class EditorProduto {
   public atualizarProduto() {
     // Valida antes de enviar
     this.validarEstoque();
-    
+
     if (!this.formularioValido) {
       this.mensagemToast = "Corrija os erros de validação antes de continuar.";
       this.toastType = 'error';
@@ -225,6 +233,7 @@ export class EditorProduto {
     }
 
     if (this.mode == 0) {
+      console.log(this.peca)
       this.servicoProduto.incluirNovaPeca(this.peca)
         .subscribe({
           next: (res: Peca) => {
@@ -238,7 +247,7 @@ export class EditorProduto {
               this.router.navigate(['main/produtos']);
             }, 2000);
           },
-          error: (err) => {
+          error: (err: any) => {
             this.result = 0;
             if (err.status == 400) {
               this.mensagemToast = "ERRO ao inserir o produto";
@@ -251,7 +260,7 @@ export class EditorProduto {
           }
         });
     } else {
-      console.log("Peca enviada " , this.peca)
+      console.log("Peca enviada ", this.peca)
       this.servicoProduto.atualizarProduto(this.peca)
         .subscribe({
           next: (res: Peca) => {
@@ -264,7 +273,7 @@ export class EditorProduto {
               this.router.navigate(['main/produtos']);
             }, 2000);
           },
-          error: (err) => {
+          error: (err: any) => {
             this.result = 0;
             if (err.status == 403) {
               this.mensagemToast = "ERRO ao atualizar o produto";

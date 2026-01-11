@@ -130,7 +130,7 @@ export class Produtos implements OnInit {
           life: 3000
         });
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('❌ Erro ao atualizar destaque:', err);
         
         // Reverte o estado em caso de erro

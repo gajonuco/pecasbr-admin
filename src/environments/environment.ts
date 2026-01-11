@@ -4,8 +4,26 @@
 
 export const environment = {
   production: false,
-  apiURL: "http://localhost:8080"
+  apiURL: "http://localhost:8080",
+
+  // Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+firebase : {
+    apiKey: "AIzaSyAjt1KtbR8Nm2wMLagbOU5X_2kMHlyxOVA",
+    authDomain: "oficina-mecanica-pwa.firebaseapp.com",
+    projectId: "oficina-mecanica-pwa",
+    storageBucket: "oficina-mecanica-pwa.firebasestorage.app",
+    messagingSenderId: "382668018602",
+    appId: "1:382668018602:web:4caa3d2624eb5541ecd1d3",
+    measurementId: "G-8HQ40153L7"
+  },
+
+  vapidKey: "BK_QLCs4jAYhJK6Z2x4pMn6ISgUEgxOVRhgJMTfNR91Kj_Xl3ohakiw0s6Sbxwot1lpaiz1oKBRsUcPZuNbXrWo"
+
 };
+
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file

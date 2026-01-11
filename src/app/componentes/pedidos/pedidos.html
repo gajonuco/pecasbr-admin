@@ -348,56 +348,58 @@
         </td>
         <td [attr.data-label]="'Observações'" >{{ ITEM.observacoes }}</td>
         <td [attr.data-label]="'Status'" >
-          <div class="btn-group" role="group">
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+           <!--  <div class="btn-group" role="group"> -->
             <!-- NOVO -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio1-' + ITEM.id"
               [checked]="ITEM.status == 1" (click)="alterarStatus(ITEM,1)">
-            <label class="btn btn-outline-primary btn-sm" [for]="'btnradio1-' + ITEM.id" title="Novo">
+            <label class="btn btn-outline-primary btn-lg" [for]="'btnradio1-' + ITEM.id" title="Novo">
               <i class="far fa-clipboard"></i>
             </label>
 
             <!-- PAGO -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio2-' + ITEM.id"
               [checked]="ITEM.status == 2" (click)="gerarFinanceiro(ITEM,2)">
-            <label class="btn btn-outline-primary btn-sm" [for]="'btnradio2-' + ITEM.id" title="Pago">
+            <label class="btn btn-outline-primary btn-lg" [for]="'btnradio2-' + ITEM.id" title="Pago">
               <i class="fas fa-dollar-sign"></i>
             </label>
 
             <!-- TRANSPORTE -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio3-' + ITEM.id"
               [checked]="ITEM.status == 3" (click)="alterarStatus(ITEM,3)">
-            <label class="btn btn-outline-primary btn-sm" [for]="'btnradio3-' + ITEM.id" title="Transporte">
+            <label class="btn btn-outline-primary btn-lg" [for]="'btnradio3-' + ITEM.id" title="Transporte">
               <i class="fas fa-shipping-fast"></i>
             </label>
 
             <!-- ENTREGUE -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio4-' + ITEM.id"
               [checked]="ITEM.status == 4" (click)="alterarStatus(ITEM,4)">
-            <label class="btn btn-outline-primary btn-sm" [for]="'btnradio4-' + ITEM.id" title="Entregue">
+            <label class="btn btn-outline-primary btn-lg" [for]="'btnradio4-' + ITEM.id" title="Entregue">
               <i class="fas fa-hand-holding-heart"></i>
             </label>
 
             <!-- PÓS VENDA -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio5-' + ITEM.id"
               [checked]="ITEM.status == 5" (click)="alterarStatus(ITEM,5)">
-            <label class="btn btn-outline-primary btn-sm" [for]="'btnradio5-' + ITEM.id" title="Pós Venda">
+            <label class="btn btn-outline-primary btn-lg" [for]="'btnradio5-' + ITEM.id" title="Pós Venda">
               <i class="far fa-smile-wink"></i>
             </label>
 
             <!-- FINALIZADO -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio6-' + ITEM.id"
               [checked]="ITEM.status == 6" (click)="alterarStatus(ITEM,6)">
-            <label class="btn btn-outline-primary btn-sm" [for]="'btnradio6-' + ITEM.id" title="Finalizado">
+            <label class="btn btn-outline-primary btn-lg" [for]="'btnradio6-' + ITEM.id" title="Finalizado">
               <i class="far fa-check-square"></i>
             </label>
 
             <!-- CANCELADO -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio7-' + ITEM.id"
               [checked]="ITEM.status == 7" (click)="alterarStatus(ITEM,7)">
-            <label class="btn btn-outline-primary btn-sm" [for]="'btnradio7-' + ITEM.id" title="Cancelado">
+            <label class="btn btn-outline-primary btn-lg" [for]="'btnradio7-' + ITEM.id" title="Cancelado">
               <i class="fas fa-window-close"></i>
             </label>
-          </div>
+            </div>
+           <!--  </div>  --> 
         </td>
       </tr>
     </ng-template>

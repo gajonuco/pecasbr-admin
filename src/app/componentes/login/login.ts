@@ -39,16 +39,16 @@ export class Login implements OnInit {
       this.router.navigate(['main/dashboard']);
       return;
     }
-    
+
     // Se chegou aqui, não há token válido
     // Remove qualquer token expirado
     if (token) {
       this.tokenService.clearToken();
     }
-    
+
     // Captura a mensagem de erro da query string
     this.src = this.activated.snapshot.queryParams['src'] ?? '';
-    
+
     // Define a mensagem inicial baseada no src
     if (this.src) {
       switch (this.src) {
@@ -59,7 +59,7 @@ export class Login implements OnInit {
           this.msgAlert = "Sua sessão expirou. Conecte-se novamente";
           break;
       }
-      
+
       // Limpa os query params da URL
       this.router.navigate([], {
         relativeTo: this.activated,
@@ -74,13 +74,18 @@ export class Login implements OnInit {
     this.src = '';
   }
 
-  public autenticar(): void {
+  public autenticar(event?: Event): void {
+    // Sempre limpa mensagens antes de nova tentativa
+    if (event) {
+      event.preventDefault();
+    }
+
     // Sempre limpa mensagens antes de nova tentativa
     this.msgAlert = '';
     this.src = '';
-    
+
     console.log(this.usuario);
-    
+
     this.service.logarUsuarios(this.usuario).subscribe({
       next: (res: Token) => {
         // Salva o novo token
@@ -97,7 +102,7 @@ export class Login implements OnInit {
 
       error: (err) => {
         console.error('Erro no login:', err);
-        
+
         // Verifica o status HTTP retornado
         if (err.status === 403) {
           // Usuário inativo

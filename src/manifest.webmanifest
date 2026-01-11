@@ -1,6 +1,6 @@
 {
-  "name": "PecasBR Admin",
-  "short_name": "PecasBR",
+  "name": "PeçasBR Admin",
+  "short_name": "Manager",
   "start_url": "/admin/",
   "scope": "/admin/",
   "display": "standalone",

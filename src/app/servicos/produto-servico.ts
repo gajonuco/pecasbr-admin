@@ -29,7 +29,7 @@ export class ProdutoServico {
 
   }
 
-  public uploadFoto(formData: FormData) {
+  public uploadFoto(formData: FormData)   {
     return this.http.post<PathDTO>(environment.apiURL + "/peca/upload", formData);
   }
 

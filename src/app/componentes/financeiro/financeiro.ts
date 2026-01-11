@@ -64,6 +64,7 @@ export class Financeiro implements OnInit {
     }
 
     item.status = novoStatus;
+    console.log(item)
     this.service.alterarStatusItem(item).subscribe({
       next: () => {
         this.mensagemToast = "Status alterado com sucesso!";

@@ -139,6 +139,8 @@ export class Pedidos {
     this.filtroPedidoDTO.cancelado = (this.filtroPedidoDTO.cancelado) ? StatusPedido.CANCELADO : 0
 
 
+
+    console.log(this.filtroPedidoDTO)
     this.service.getAllPedidos(this.filtroPedidoDTO)
       .subscribe({
         next: (res: Pedido[]) => {
