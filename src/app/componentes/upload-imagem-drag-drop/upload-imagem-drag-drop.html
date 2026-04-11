@@ -1,0 +1,141 @@
+<div class="galeria-wrapper">
+
+  <!-- Cabeçalho com contador -->
+  <div class="galeria-header">
+    <span class="galeria-titulo">Imagens do Produto</span>
+    <span class="contador-badge" [class.contador-limite]="limiteAtingido">
+      {{ totalAtual }}/{{ maxImagens }}
+    </span>
+  </div>
+
+  <!-- Zona de Drag & Drop para Upload -->
+  @if(!limiteAtingido) {
+    <div
+      class="zona-drop"
+      [class.zona-drop--ativa]="isDragOver"
+      [class.zona-drop--carregando]="uploadando"
+      (dragover)="onZonaDragOver($event)"
+      (dragleave)="onZonaDragLeave($event)"
+      (drop)="onZonaDrop($event)"
+      (click)="fileInput.click()">
+
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        multiple
+        hidden
+        (change)="onInputChange($event)">
+
+      @if(uploadando) {
+        <div class="zona-drop__icone">
+          <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <p class="zona-drop__texto">Enviando imagens...</p>
+      } @else if(isDragOver) {
+        <div class="zona-drop__icone zona-drop__icone--ativo">
+          <i class="pi pi-download"></i>
+        </div>
+        <p class="zona-drop__texto">Solte as imagens aqui!</p>
+      } @else {
+        <div class="zona-drop__icone">
+          <i class="pi pi-cloud-upload"></i>
+        </div>
+        <p class="zona-drop__texto">
+          Arraste as imagens aqui<br>
+          <span class="zona-drop__subtexto">ou clique para selecionar</span>
+        </p>
+        <p class="zona-drop__hint">PNG, JPG, WEBP · Até {{ maxImagens - imagens.length }} imagens</p>
+      }
+    </div>
+  }
+
+  <!-- Mensagem de erro -->
+  @if(erroUpload) {
+    <div class="erro-upload">
+      <i class="pi pi-exclamation-triangle me-2"></i>{{ erroUpload }}
+    </div>
+  }
+
+  <!-- Galeria: Imagens salvas + Previews pendentes -->
+  @if(imagens.length > 0 || previews.length > 0) {
+    <div class="galeria-grid">
+
+      <!-- Imagens já salvas (arrastáveis para reordenar) -->
+      @for(imagem of imagens; track imagem.id; let i = $index) {
+        <div
+          class="imagem-card"
+          [class.imagem-card--principal]="imagem.principal === 1"
+          draggable="true"
+          (dragstart)="onCardDragStart($event, i)"
+          (dragend)="onCardDragEnd($event)"
+          (dragover)="onCardDragOver($event, i)"
+          (dragleave)="onCardDragLeave($event)"
+          (drop)="onCardDrop($event, i)">
+
+          <!-- Badge principal -->
+          @if(imagem.principal === 1) {
+            <div class="badge-principal">
+              <i class="pi pi-star-fill"></i> Principal
+            </div>
+          }
+
+          <!-- Ícone de arrastar -->
+          <div class="drag-handle" title="Arraste para reordenar">
+            <i class="pi pi-bars"></i>
+          </div>
+
+          <img [src]="imagem.linkImagem" [alt]="'Imagem ' + (i + 1)" class="imagem-card__foto">
+
+          <!-- Ações -->
+          <div class="imagem-card__acoes">
+            <button
+              type="button"
+              class="btn-acao btn-acao--estrela"
+              title="Definir como principal"
+              [disabled]="imagem.principal === 1"
+              (click)="aoDefinirPrincipal(imagem, i)">
+              <i class="pi pi-star"></i>
+            </button>
+            <button
+              type="button"
+              class="btn-acao btn-acao--lixo"
+              title="Remover imagem"
+              (click)="aoRemoverImagem(imagem, i)">
+              <i class="pi pi-trash"></i>
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Previews pendentes (aguardando upload) -->
+      @for(preview of previews; track preview.preview; let j = $index) {
+        <div class="imagem-card imagem-card--preview">
+          <div class="badge-pendente">
+            <i class="pi pi-clock"></i> Pendente
+          </div>
+          <img [src]="preview.preview" alt="Preview" class="imagem-card__foto">
+          <div class="imagem-card__acoes">
+            <button
+              type="button"
+              class="btn-acao btn-acao--lixo"
+              title="Cancelar"
+              (click)="removerPreview(j)">
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+        </div>
+      }
+
+    </div>
+
+    <!-- Dica de reordenação -->
+    @if(imagens.length > 1) {
+      <p class="dica-reordenacao">
+        <i class="pi pi-info-circle me-1"></i>
+        Arraste os cards para reordenar as imagens
+      </p>
+    }
+  }
+
+</div>

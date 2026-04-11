@@ -1,10 +1,13 @@
 import { CategoriaPeca } from "./CategoriaPeca";
+import { PecaImagem } from "./PecaImagem";
+import { PecaVariacao } from "./PecaVariacao";
 
 export class Peca {
     public id!: number;
     public nome!: string;
     public detalhe!: string;
     public linkFoto!: string;
+     public imagens: PecaImagem[] = [];  // novo campo
     public precoPromo!: number;
     public prontaEntrega!: number;
     public preco!: number;
@@ -14,6 +17,9 @@ export class Peca {
     public estoqueMinimo!: number;
     public estoqueCritico!: number;
     public categoriaPeca!: CategoriaPeca;
+    public corUnica: boolean = false;
+    public tamanhoUnico: boolean = false;
+    public variacoes: PecaVariacao[] = [];
 
 
     // Getters para usar no template
@@ -39,5 +45,10 @@ export class Peca {
 
     set prontaEntregaBool(value: boolean) {
         this.prontaEntrega = value ? 1 : 0;
+    }
+
+        get imagemPrincipal(): string {
+        const principal = this.imagens?.find(i => i.principal === 1);
+        return principal?.linkImagem ?? this.linkFoto ?? '';
     }
 }

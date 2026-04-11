@@ -18,13 +18,13 @@ import { MessageService } from 'primeng/api';
   selector: 'app-produtos',
   imports: [
     CommonModule,
-    FormsModule, 
+    FormsModule,
     DialogModule,
-    RouterLink, 
-    TableModule, 
-    ButtonModule, 
-    TagModule, 
-    CurrencyPipe,  
+    RouterLink,
+    TableModule,
+    ButtonModule,
+    TagModule,
+    CurrencyPipe,
     InputTextModule,
     ToastModule
   ],
@@ -39,7 +39,7 @@ export class Produtos implements OnInit {
   public displayCompradores: boolean = false;
 
   constructor(
-    private service: ProdutoServico, 
+    private service: ProdutoServico,
     private router: Router,
     private cliService: ClienteServico,
     private messageService: MessageService
@@ -66,8 +66,8 @@ export class Produtos implements OnInit {
    * Verifica se o produto pode ser destacado (tem estoque)
    */
   private podeDestacar(peca: Peca): boolean {
-    return peca.quantidadeEstoque !== null && 
-           peca.quantidadeEstoque !== undefined && 
+    return peca.quantidadeEstoque !== null &&
+           peca.quantidadeEstoque !== undefined &&
            peca.quantidadeEstoque > 0;
   }
 
@@ -75,8 +75,8 @@ export class Produtos implements OnInit {
    * Verifica se o produto pode ser disponibilizado (tem estoque)
    */
   private podeDisponibilizar(peca: Peca): boolean {
-    return peca.quantidadeEstoque !== null && 
-           peca.quantidadeEstoque !== undefined && 
+    return peca.quantidadeEstoque !== null &&
+           peca.quantidadeEstoque !== undefined &&
            peca.quantidadeEstoque > 0;
   }
 
@@ -98,7 +98,7 @@ export class Produtos implements OnInit {
     if (novoValor === true) {
       if (!this.podeDestacar(peca)) {
         console.log('❌ BLOQUEADO: Produto sem estoque');
-        
+
         // Reverte o checkbox
         checkbox.checked = false;
         peca.destaque = 0;
@@ -117,22 +117,22 @@ export class Produtos implements OnInit {
 
     // Se passou na validação ou está DESATIVANDO, permite a alteração
     peca.destaque = novoValor ? 1 : 0;
-    
+
     this.service.atualizarProduto(peca).subscribe({
       next: (res: Peca) => {
         console.log('✅ Destaque atualizado:', res);
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: novoValor 
-            ? `"${peca.nome}" marcado como destaque` 
+          detail: novoValor
+            ? `"${peca.nome}" marcado como destaque`
             : `"${peca.nome}" removido dos destaques`,
           life: 3000
         });
       },
       error: (err: any) => {
         console.error('❌ Erro ao atualizar destaque:', err);
-        
+
         // Reverte o estado em caso de erro
         checkbox.checked = !novoValor;
         peca.destaque = novoValor ? 0 : 1;
@@ -165,7 +165,7 @@ export class Produtos implements OnInit {
     if (novoValor === true) {
       if (!this.podeDisponibilizar(peca)) {
         console.log('❌ BLOQUEADO: Produto sem estoque');
-        
+
         // Reverte o checkbox
         checkbox.checked = false;
         peca.disponivel = 0;
@@ -184,22 +184,22 @@ export class Produtos implements OnInit {
 
     // Se passou na validação ou está DESATIVANDO, permite a alteração
     peca.disponivel = novoValor ? 1 : 0;
-    
+
     this.service.atualizarProduto(peca).subscribe({
       next: (res: Peca) => {
         console.log('✅ Disponibilidade atualizada:', res);
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: novoValor 
-            ? `"${peca.nome}" está disponível para venda` 
+          detail: novoValor
+            ? `"${peca.nome}" está disponível para venda`
             : `"${peca.nome}" marcado como indisponível`,
           life: 3000
         });
       },
       error: (err: any) => {
         console.error('❌ Erro ao atualizar disponibilidade:', err);
-        
+
         // Reverte o estado em caso de erro
         checkbox.checked = !novoValor;
         peca.disponivel = novoValor ? 0 : 1;
@@ -223,22 +223,22 @@ export class Produtos implements OnInit {
     const novoValor = checkbox.checked;
 
     peca.prontaEntrega = novoValor ? 1 : 0;
-    
+
     this.service.atualizarProduto(peca).subscribe({
       next: (res: Peca) => {
         console.log('✅ Pronta entrega atualizado:', res);
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: novoValor 
-            ? `"${peca.nome}" marcado como pronta entrega` 
+          detail: novoValor
+            ? `"${peca.nome}" marcado como pronta entrega`
             : `"${peca.nome}" não é mais pronta entrega`,
           life: 3000
         });
       },
       error: (err: any ) => {
         console.error('❌ Erro ao atualizar pronta entrega:', err);
-        
+
         // Reverte o estado em caso de erro
         checkbox.checked = !novoValor;
         peca.prontaEntrega = novoValor ? 0 : 1;

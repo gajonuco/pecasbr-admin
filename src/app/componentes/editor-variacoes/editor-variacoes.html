@@ -1,0 +1,310 @@
+<!-- editor-variacoes.html -->
+<section class="ev-shell">
+
+  <!-- ── Cabeçalho da seção ─────────────────────────────────────── -->
+  <header class="ev-header">
+    <div class="ev-header__left">
+      <span class="ev-label">Variações do produto</span>
+      <h3 class="ev-title">Cores &amp; Tamanhos</h3>
+    </div>
+    @if (totalVariacoes > 0) {
+      <div class="ev-header__stats">
+        <span class="ev-stat">
+          <span class="ev-stat__num">{{ totalVariacoes }}</span>
+          <span class="ev-stat__txt">combinações</span>
+        </span>
+        <span class="ev-stat">
+          <span class="ev-stat__num">{{ estoqueTotal }}</span>
+          <span class="ev-stat__txt">un. em estoque</span>
+        </span>
+      </div>
+    }
+  </header>
+
+  <!-- ── Flags cor única / tamanho único ──────────────────────────── -->
+  <div class="ev-flags">
+    <label class="ev-flag-item">
+      <p-checkbox
+        [(ngModel)]="corUnica"
+        [binary]="true"
+        (ngModelChange)="onCorUnicaChange()">
+      </p-checkbox>
+      <span class="ev-flag-item__text">
+        Cor única
+        <em>— produto só existe em uma cor</em>
+      </span>
+    </label>
+    <label class="ev-flag-item">
+      <p-checkbox
+        [(ngModel)]="tamanhoUnico"
+        [binary]="true"
+        (ngModelChange)="onTamanhoUnicoChange()">
+      </p-checkbox>
+      <span class="ev-flag-item__text">
+        Tamanho único
+        <em>— produto não tem variação de tamanho</em>
+      </span>
+    </label>
+  </div>
+
+  <div class="ev-columns">
+
+    <!-- ── Coluna: Cores ──────────────────────────────────────────── -->
+    <div class="ev-column">
+      <div class="ev-column__head">
+        <span class="ev-column__title">Cores</span>
+        <span class="ev-column__count">{{ cores.length }} / {{ MAX_CORES }}</span>
+      </div>
+
+      @if (cores.length > 0) {
+        <ul class="ev-tag-list">
+          @for (cor of cores; track cor.nome; let i = $index) {
+            <li class="ev-tag">
+              <span class="ev-tag__swatch" [style.background]="cor.hex"></span>
+              <span class="ev-tag__label">{{ cor.nome }}</span>
+              @if (!corUnica || i > 0) {
+                <button class="ev-tag__remove" (click)="removerCor(i)" aria-label="Remover cor">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+                  </svg>
+                </button>
+              }
+            </li>
+          }
+        </ul>
+      }
+
+      @if (!corUnica || cores.length === 0) {
+        @if (cores.length < MAX_CORES) {
+          <div class="ev-add-cor">
+            <div class="ev-add-cor__row">
+              <div class="ev-color-wrap">
+                <input type="color" [(ngModel)]="novoHex" class="ev-color-input"
+                       title="Escolher cor" aria-label="Cor hex">
+                <span class="ev-color-preview" [style.background]="novoHex"></span>
+              </div>
+              <input pInputText [(ngModel)]="novaCor" placeholder="Nome da cor (ex: Marfim)"
+                     class="ev-text-input" (keyup.enter)="adicionarCor()">
+              <button pButton icon="pi pi-plus" class="p-button-sm p-button-outlined ev-btn-add"
+                      (click)="adicionarCor()" pTooltip="Adicionar cor"></button>
+            </div>
+            @if (erroNovaCor) {
+              <small class="ev-error">{{ erroNovaCor }}</small>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <!-- ── Coluna: Tamanhos ───────────────────────────────────────── -->
+    <div class="ev-column">
+      <div class="ev-column__head">
+        <span class="ev-column__title">Tamanhos</span>
+        <span class="ev-column__count">{{ tamanhos.length }} / {{ MAX_TAMANHOS }}</span>
+      </div>
+
+      @if (!tamanhoUnico && tamanhos.length < MAX_TAMANHOS) {
+        <div class="ev-sugestoes">
+          @for (s of TAMANHOS_SUGERIDOS; track s) {
+            <button class="ev-chip"
+                    [class.ev-chip--ativo]="sugestaoJaAdicionada(s)"
+                    [disabled]="sugestaoJaAdicionada(s)"
+                    (click)="adicionarTamanho(s)">{{ s }}</button>
+          }
+        </div>
+      }
+
+      @if (tamanhos.length > 0) {
+        <ul class="ev-tag-list ev-tag-list--tam">
+          @for (tam of tamanhos; track tam; let i = $index) {
+            <li class="ev-tag ev-tag--tam">
+              <span class="ev-tag__label">{{ tam }}</span>
+              @if (!tamanhoUnico || i > 0) {
+                <button class="ev-tag__remove" (click)="removerTamanho(i)" aria-label="Remover tamanho">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+                  </svg>
+                </button>
+              }
+            </li>
+          }
+        </ul>
+      }
+
+      @if (!tamanhoUnico || tamanhos.length === 0) {
+        @if (tamanhos.length < MAX_TAMANHOS) {
+          <div class="ev-add-tam">
+            <input pInputText [(ngModel)]="novoTamanho" placeholder="Tamanho personalizado"
+                   class="ev-text-input" (keyup.enter)="adicionarTamanho()">
+            <button pButton icon="pi pi-plus" class="p-button-sm p-button-outlined ev-btn-add"
+                    (click)="adicionarTamanho()" pTooltip="Adicionar tamanho"></button>
+          </div>
+          @if (erroTamanho) {
+            <small class="ev-error">{{ erroTamanho }}</small>
+          }
+        }
+      }
+    </div>
+
+  </div><!-- /ev-columns -->
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       ESTOQUE POR VARIAÇÃO — bifurca aqui entre mobile e desktop
+  ═══════════════════════════════════════════════════════════════════ -->
+
+  @if (cores.length > 0 && tamanhos.length > 0) {
+
+    <!-- ── VIEW MOBILE: cartões colapsáveis por cor ─────────────────── -->
+    @if (isMobile) {
+      <div class="ev-mobile-section">
+
+        <div class="ev-column__head">
+          <span class="ev-column__title">Estoque por variação</span>
+          <span class="ev-column__count">{{ estoqueTotal }} un. total</span>
+        </div>
+
+        <!-- Quick-fill: preencher todas as variações de uma vez -->
+        <div class="ev-quick-fill">
+          <span class="ev-quick-fill__label">Preencher todas com</span>
+          <div class="ev-quick-fill__row">
+            <p-inputNumber
+              [(ngModel)]="valorPreenchimento"
+              [showButtons]="false"
+              [min]="0"
+              [step]="1"
+              inputStyleClass="ev-quick-fill__input"
+              styleClass="ev-quick-fill__input-wrap">
+            </p-inputNumber>
+            <button pButton
+                    label="Aplicar"
+                    class="p-button-sm p-button-outlined ev-quick-fill__btn"
+                    (click)="preencherTodos()">
+            </button>
+          </div>
+        </div>
+
+        <!-- Cartões por cor -->
+        @for (cor of cores; track cor.nome) {
+          <div class="ev-color-card" [class.ev-color-card--aberto]="isCardAberto(cor.nome)">
+
+            <!-- Cabeçalho clicável -->
+            <button class="ev-color-card__header" (click)="toggleCard(cor.nome)" type="button">
+              <span class="ev-color-card__swatch" [style.background]="cor.hex"></span>
+              <span class="ev-color-card__name">{{ cor.nome }}</span>
+              <span class="ev-color-card__total"
+                    [class.ev-color-card__total--ok]="estoquePorCor(cor.nome) > 0">
+                {{ estoquePorCor(cor.nome) }} un.
+              </span>
+              <svg class="ev-color-card__chevron"
+                   [class.ev-color-card__chevron--aberto]="isCardAberto(cor.nome)"
+                   width="16" height="16" viewBox="0 0 16 16"
+                   fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <polyline points="4,6 8,10 12,6"/>
+              </svg>
+            </button>
+
+            <!-- Grade de tamanhos (visível quando aberto) -->
+            @if (isCardAberto(cor.nome)) {
+              <div class="ev-color-card__body">
+                @for (tam of tamanhos; track tam) {
+                  <div class="ev-size-cell">
+                    <span class="ev-size-cell__label">{{ tam }}</span>
+                    <div class="ev-size-cell__stepper"
+                         [class.ev-size-cell__stepper--zero]="(variacaoMap[cor.nome][tam].quantidadeEstoque ?? 0) === 0"
+                         [class.ev-size-cell__stepper--ok]="(variacaoMap[cor.nome][tam].quantidadeEstoque ?? 0) > 0">
+                      <button class="ev-size-cell__btn"
+                              type="button"
+                              (click)="atualizarEstoque(cor.nome, tam, (variacaoMap[cor.nome][tam].quantidadeEstoque ?? 0) - 1)"
+                              [disabled]="(variacaoMap[cor.nome][tam].quantidadeEstoque ?? 0) === 0"
+                              aria-label="Diminuir">−</button>
+                      <p-inputNumber
+                        [(ngModel)]="variacaoMap[cor.nome][tam].quantidadeEstoque"
+                        (ngModelChange)="atualizarEstoque(cor.nome, tam, $event)"
+                        [showButtons]="false"
+                        [min]="0"
+                        [step]="1"
+                        inputStyleClass="ev-size-cell__input"
+                        styleClass="ev-size-cell__input-wrap">
+                      </p-inputNumber>
+                      <button class="ev-size-cell__btn"
+                              type="button"
+                              (click)="atualizarEstoque(cor.nome, tam, (variacaoMap[cor.nome][tam].quantidadeEstoque ?? 0) + 1)"
+                              aria-label="Aumentar">+</button>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+          </div>
+        }
+
+      </div>
+    }
+
+    <!-- ── VIEW DESKTOP: tabela ──────────────────────────────────────── -->
+    @if (!isMobile) {
+      <div class="ev-grid-section">
+        <div class="ev-column__head ev-column__head--grid">
+          <span class="ev-column__title">Estoque por variação</span>
+          <span class="ev-column__count">Unidades disponíveis</span>
+        </div>
+
+        <div class="ev-grid-scroll">
+          <table class="ev-grid">
+            <thead>
+              <tr>
+                <th class="ev-grid__th ev-grid__th--cor">Cor</th>
+                @for (tam of tamanhos; track tam) {
+                  <th class="ev-grid__th">{{ tam }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (cor of cores; track cor.nome) {
+                <tr class="ev-grid__row" style="height: 44px;">
+                  <td class="ev-grid__cor-cell">
+                    <span class="ev-grid__swatch" [style.background]="cor.hex"></span>
+                    <span class="ev-grid__cor-nome">{{ cor.nome }}</span>
+                  </td>
+                  @for (tam of tamanhos; track tam) {
+                    <td class="ev-grid__td">
+                      <p-inputNumber
+                        [(ngModel)]="variacaoMap[cor.nome][tam].quantidadeEstoque"
+                        (ngModelChange)="atualizarEstoque(cor.nome, tam, $event)"
+                        [showButtons]="false"
+                        [min]="0"
+                        [step]="1"
+                        styleClass="ev-estoque-input"
+                        inputStyleClass="ev-estoque-field"
+                        [ngClass]="{
+                          'ev-cell--zero': (variacaoMap[cor.nome][tam].quantidadeEstoque ?? 0) === 0,
+                          'ev-cell--ok':   (variacaoMap[cor.nome][tam].quantidadeEstoque ?? 0) > 0
+                        }">
+                      </p-inputNumber>
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+  }
+
+  <!-- ── Estado vazio ───────────────────────────────────────────────── -->
+  @if (cores.length === 0 || tamanhos.length === 0) {
+    <div class="ev-empty">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <line x1="3" y1="9" x2="21" y2="9"/>
+        <line x1="9" y1="21" x2="9" y2="9"/>
+      </svg>
+      <p>Adicione ao menos <strong>uma cor</strong> e <strong>um tamanho</strong> para gerar a grade de estoque.</p>
+    </div>
+  }
+
+</section>

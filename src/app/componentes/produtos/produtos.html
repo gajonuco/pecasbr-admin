@@ -7,40 +7,28 @@
 </div>
 
 <div class="container-fluid">
-  
+
   <div class="row mb-3 align-items-center">
     <div class="col-12 col-md-4 mb-2">
-      <button pButton 
-              label="Novo Produto" 
-              icon="pi pi-plus" 
-              class="p-button-primary"
-              [routerLink]="['/main/editor-produto', 'new']">
+      <button pButton label="Novo Produto" icon="pi pi-plus" class="p-button-primary"
+        [routerLink]="['/main/editor-produto', 'new']">
       </button>
     </div>
-    
+
     <div class="col-12 col-md-8 mb-2">
       <div class="p-inputgroup" style="width: 100%;">
         <span class="p-inputgroup-addon">
         </span>
-        <input pInputText 
-               type="text"
-               style="width: 100%;"  
-               (input)="dt.filterGlobal($any($event.target).value, 'contains')" 
-               placeholder="Buscar por nome, categoria ou ID..." />
+        <input pInputText type="text" style="width: 100%;"
+          (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+          placeholder="Buscar por nome, categoria ou ID..." />
       </div>
     </div>
   </div>
 
-  <p-table 
-    #dt
-    [value]="lista"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[5,10,20]"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
-    [globalFilterFields]="['nome', 'categoriaPeca.nome', 'id']"
-    class="p-datatable-gridlines">
+  <p-table #dt [value]="lista" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
+    [showCurrentPageReport]="true" currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    [globalFilterFields]="['nome', 'categoriaPeca.nome', 'id']" class="p-datatable-gridlines">
 
     <!-- Cabeçalho -->
     <ng-template pTemplate="header">
@@ -62,12 +50,11 @@
     <ng-template pTemplate="body" let-ITEM>
       <tr [ngClass]="getEstoqueStatusClass(ITEM)">
         <td [attr.data-label]="'ID'" class="text-center">{{ ITEM.id }}</td>
-        
+
         <td [attr.data-label]="'Foto'" class="text-center" style="width: 100px;">
           <a class="nav-link" [routerLink]="['/main/editor-produto', ITEM.id]">
-            <img [src]="ITEM.linkFoto" 
-                 style="max-width: 80px; max-height: 80px; object-fit: contain;"
-                 [alt]="ITEM.nome">
+            <img [src]="ITEM.imagens?.length > 0 ? ITEM.imagens[0].linkImagem : ITEM.linkFoto"
+              style="max-width: 80px; max-height: 80px; object-fit: contain;" [alt]="ITEM.nome">
           </a>
         </td>
 
@@ -80,7 +67,7 @@
         <td [attr.data-label]="'Preço'" class="text-center">
           {{ ITEM.preco | currency:'BRL' }}
         </td>
-        
+
         <td [attr.data-label]="'Categoria'" class="text-center">
           {{ ITEM.categoriaPeca.nome }}
         </td>
@@ -96,18 +83,14 @@
         <td [attr.data-label]="'Disponível'" class="text-center">
           <div class="d-flex justify-content-center align-items-center flex-column">
             <div class="form-check form-switch">
-              <input class="form-check-input" 
-                     type="checkbox" 
-                     role="switch" 
-                     [checked]="ITEM.disponivel === 1"
-                     (change)="disponibiliza(ITEM, $event)"
-                     [id]="'switch-disponivel-' + ITEM.id">
+              <input class="form-check-input" type="checkbox" role="switch" [checked]="ITEM.disponivel === 1"
+                (change)="disponibiliza(ITEM, $event)" [id]="'switch-disponivel-' + ITEM.id">
             </div>
             @if(isProdutoSemEstoque(ITEM) && ITEM.disponivel === 0) {
-              <small class="text-danger mt-1">
-                <i class="pi pi-exclamation-triangle" style="font-size: 0.7rem;"></i>
-                Sem estoque
-              </small>
+            <small class="text-danger mt-1">
+              <i class="pi pi-exclamation-triangle" style="font-size: 0.7rem;"></i>
+              Sem estoque
+            </small>
             }
           </div>
         </td>
@@ -115,12 +98,8 @@
         <!-- Switch PRONTA ENTREGA (sem validação) -->
         <td [attr.data-label]="'Pronta Entrega'" class="text-center">
           <div class="d-flex justify-content-center form-check form-switch">
-            <input class="form-check-input" 
-                   type="checkbox" 
-                   role="switch" 
-                   [checked]="ITEM.prontaEntrega === 1"
-                   (change)="prontaEntrega(ITEM, $event)"
-                   [id]="'switch-pronta-' + ITEM.id">
+            <input class="form-check-input" type="checkbox" role="switch" [checked]="ITEM.prontaEntrega === 1"
+              (change)="prontaEntrega(ITEM, $event)" [id]="'switch-pronta-' + ITEM.id">
           </div>
         </td>
 
@@ -128,29 +107,21 @@
         <td [attr.data-label]="'Em Destaque'" class="text-center">
           <div class="d-flex justify-content-center align-items-center flex-column">
             <div class="form-check form-switch">
-              <input class="form-check-input" 
-                     type="checkbox" 
-                     role="switch" 
-                     [checked]="ITEM.destaque === 1"
-                     (change)="destaca(ITEM, $event)"
-                     [id]="'switch-destaque-' + ITEM.id">
+              <input class="form-check-input" type="checkbox" role="switch" [checked]="ITEM.destaque === 1"
+                (change)="destaca(ITEM, $event)" [id]="'switch-destaque-' + ITEM.id">
             </div>
             @if(isProdutoSemEstoque(ITEM) && ITEM.destaque === 0) {
-              <small class="text-danger mt-1">
-                <i class="pi pi-exclamation-triangle" style="font-size: 0.7rem;"></i>
-                Sem estoque
-              </small>
+            <small class="text-danger mt-1">
+              <i class="pi pi-exclamation-triangle" style="font-size: 0.7rem;"></i>
+              Sem estoque
+            </small>
             }
           </div>
         </td>
 
         <td [attr.data-label]="'Compradores'" class="text-center">
-          <button pButton 
-                  icon="pi pi-users" 
-                  class="p-button-text p-button-info"
-                  (click)="buscarCompradores(ITEM.id)"
-                  pTooltip="Ver Compradores"
-                  tooltipPosition="top">
+          <button pButton icon="pi pi-users" class="p-button-text p-button-info" (click)="buscarCompradores(ITEM.id)"
+            pTooltip="Ver Compradores" tooltipPosition="top">
           </button>
         </td>
       </tr>
@@ -174,15 +145,9 @@
 <p-toast position="top-right" [life]="5000"></p-toast>
 
 <!-- Modal de Compradores - PrimeNG -->
-<p-dialog 
-  [(visible)]="displayCompradores" 
-  [modal]="true" 
-  [style]="{width: '90vw', maxWidth: '800px'}" 
-  [draggable]="false" 
-  [resizable]="false"
-  styleClass="modal-compradores"
-  [maximizable]="true">
-  
+<p-dialog [(visible)]="displayCompradores" [modal]="true" [style]="{width: '90vw', maxWidth: '800px'}"
+  [draggable]="false" [resizable]="false" styleClass="modal-compradores" [maximizable]="true">
+
   <ng-template pTemplate="header">
     <div class="flex align-items-center gap-2">
       <i class="pi pi-users"></i>
@@ -191,15 +156,9 @@
   </ng-template>
 
   <div class="modal-body-content">
-    <p-table 
-      [value]="compradores"
-      [paginator]="compradores.length > 10"
-      [rows]="10"
-      [rowsPerPageOptions]="[5,10,20]"
-      [showCurrentPageReport]="true"
-      currentPageReportTemplate="{first} a {last} de {totalRecords} compradores"
-      [tableStyle]="{ 'min-width': '100%' }"
-      styleClass="p-datatable-gridlines p-datatable-striped"
+    <p-table [value]="compradores" [paginator]="compradores.length > 10" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
+      [showCurrentPageReport]="true" currentPageReportTemplate="{first} a {last} de {totalRecords} compradores"
+      [tableStyle]="{ 'min-width': '100%' }" styleClass="p-datatable-gridlines p-datatable-striped"
       responsiveLayout="scroll">
 
       <!-- Cabeçalho -->
@@ -218,16 +177,14 @@
             <i class="pi pi-user me-2" style="color: #00ADB5;"></i>
             {{ ITEM.nome }}
           </td>
-          
+
           <td [attr.data-label]="'WhatsApp'">
-            <a [href]="'https://wa.me/55' + limparTelefone(ITEM.telefone)" 
-               target="_blank"
-               class="whatsapp-link">
+            <a [href]="'https://wa.me/55' + limparTelefone(ITEM.telefone)" target="_blank" class="whatsapp-link">
               <i class="pi pi-whatsapp me-2"></i>
               {{ ITEM.telefone }}
             </a>
           </td>
-          
+
           <td [attr.data-label]="'E-mail'">
             <a [href]="'mailto:' + ITEM.email" class="email-link">
               <i class="pi pi-envelope me-2"></i>
@@ -251,11 +208,7 @@
   </div>
 
   <ng-template pTemplate="footer">
-    <button pButton 
-            label="Fechar" 
-            icon="pi pi-times" 
-            class="p-button-secondary" 
-            (click)="displayCompradores = false">
+    <button pButton label="Fechar" icon="pi pi-times" class="p-button-secondary" (click)="displayCompradores = false">
     </button>
   </ng-template>
 </p-dialog>
