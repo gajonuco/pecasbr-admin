@@ -12,6 +12,7 @@ export class Cliente {
   public bairro!: string;
   public cidade!: string;
   public estado!: string;
+  enderecoPrincipal?: any
 
   public resetEndereco(): void {
     this.cep = '';

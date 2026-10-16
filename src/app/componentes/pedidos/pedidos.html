@@ -16,15 +16,9 @@
 </div>
 
 <!-- Modal Detalhe do Pedido - PrimeNG -->
-<p-dialog 
-  [(visible)]="displayDetalhePedido" 
-  [modal]="true" 
-  [style]="{width: '90vw', maxWidth: '800px'}" 
-  [draggable]="false" 
-  [resizable]="false"
-  styleClass="modal-pedido"
-  [maximizable]="true">
-  
+<p-dialog [(visible)]="displayDetalhePedido" [modal]="true" [style]="{width: '90vw', maxWidth: '800px'}"
+  [draggable]="false" [resizable]="false" styleClass="modal-pedido" [maximizable]="true">
+
   <ng-template pTemplate="header">
     <div class="flex align-items-center gap-2">
       <i class="pi pi-shopping-cart"></i>
@@ -50,21 +44,17 @@
 
     <div class="mb-3">
       <label class="form-label"><strong>RETIRAR:</strong></label>
-      <p-select 
-        [(ngModel)]="detalhe.retirar" 
-        [options]="retirarOptions" 
-        optionLabel="label" 
-        optionValue="value"
-        placeholder="Selecione"
-        styleClass="w-full">
+      <p-select [(ngModel)]="detalhe.retirar" [options]="retirarOptions" optionLabel="label" optionValue="value"
+        placeholder="Selecione" styleClass="w-full">
       </p-select>
     </div>
 
     <div class="mb-3">
       <p><strong>Endereço:</strong><br>
-        {{detalhe.cliente?.logradouro}} - {{detalhe.cliente?.numero}}<br>
-        {{detalhe.cliente?.bairro}} - {{detalhe.cliente?.cidade}}<br>
-        {{detalhe.cliente?.cep}}
+        @let end = detalhe.enderecoEntrega ?? detalhe.cliente?.enderecoPrincipal;
+        {{ end?.logradouro }} - {{ end?.numero }}<br>
+        {{ end?.bairro }} - {{ end?.cidade }}<br>
+        {{ end?.cep }}
       </p>
     </div>
 
@@ -79,11 +69,8 @@
       <i class="pi pi-list me-2"></i>Itens do Pedido
     </h6>
 
-    <p-table 
-      [value]="detalhe.itensPedido" 
-      [tableStyle]="{ 'min-width': '100%' }"
-      styleClass="p-datatable-sm">
-      
+    <p-table [value]="detalhe.itensPedido" [tableStyle]="{ 'min-width': '100%' }" styleClass="p-datatable-sm">
+
       <ng-template pTemplate="header">
         <tr>
           <th>Foto</th>
@@ -96,15 +83,12 @@
 
       <ng-template pTemplate="body" let-item>
         <tr>
-          <td [attr.data-label]="'Foto'" >
-            <img [src]="item.peca.linkFoto" 
-                 height="50" 
-                 class="rounded" 
-                 style="object-fit: cover;">
+          <td [attr.data-label]="'Foto'">
+            <img [src]="item.peca.linkFoto" height="50" class="rounded" style="object-fit: cover;">
           </td>
-          <td [attr.data-label]="'Nome'" >{{item.peca.nome}}</td>
+          <td [attr.data-label]="'Nome'">{{item.peca.nome}}</td>
           <td [attr.data-label]="'Preço Unitário'">{{item.precoUnitario | currency: 'BRL'}}</td>
-          <td [attr.data-label]="'Qtd Item'" >{{item.qtdtItem}}</td>
+          <td [attr.data-label]="'Qtd Item'">{{item.qtdtItem}}</td>
           <td [attr.data-label]="'Preço Total'"><strong>{{item.precoTotal | currency: 'BRL'}}</strong></td>
         </tr>
       </ng-template>
@@ -112,17 +96,9 @@
   </div>
 
   <ng-template pTemplate="footer">
-    <button pButton 
-            label="Atualizar Dados" 
-            icon="pi pi-check" 
-            class="p-button-primary" 
-            (click)="atualizarPedido()">
+    <button pButton label="Atualizar Dados" icon="pi pi-check" class="p-button-primary" (click)="atualizarPedido()">
     </button>
-    <button pButton 
-            label="Fechar" 
-            icon="pi pi-times" 
-            class="p-button-secondary" 
-             (click)="displayDetalhePedido = false">
+    <button pButton label="Fechar" icon="pi pi-times" class="p-button-secondary" (click)="displayDetalhePedido = false">
     </button>
   </ng-template>
 </p-dialog>
@@ -130,14 +106,9 @@
 
 <!-- Modal Financeiro -->
 <!-- Modal Financeiro - PrimeNG -->
-<p-dialog 
-  [(visible)]="displayFinanceiro" 
-  [modal]="true" 
-  [style]="{width: '90vw', maxWidth: '500px'}" 
-  [draggable]="false" 
-  [resizable]="false"
-  styleClass="modal-financeiro">
-  
+<p-dialog [(visible)]="displayFinanceiro" [modal]="true" [style]="{width: '90vw', maxWidth: '500px'}"
+  [draggable]="false" [resizable]="false" styleClass="modal-financeiro">
+
   <ng-template pTemplate="header">
     <div class="flex align-items-center gap-2">
       <i class="pi pi-dollar"></i>
@@ -148,64 +119,33 @@
   <div class="modal-body-content">
     <div class="mb-3">
       <label for="selectPgto" class="form-label">Forma de Pagamento</label>
-      <p-select 
-        [(ngModel)]="registroFinanceiro.formaPagamento.numSeq" 
-        [options]="formasPgto" 
-        optionLabel="descricao" 
-        optionValue="numSeq"
-        placeholder="Pix"
-        styleClass="w-full"
-        [showClear]="true">
+      <p-select [(ngModel)]="registroFinanceiro.formaPagamento.numSeq" [options]="formasPgto" optionLabel="descricao"
+        optionValue="numSeq" placeholder="Pix" styleClass="w-full" [showClear]="true">
       </p-select>
     </div>
 
     <div class="mb-3">
       <label for="txtDataVencimento" class="form-label">Digite a data do vencimento (dia do mês)</label>
-      <p-inputNumber 
-        [(ngModel)]="registroFinanceiro.diaVencimento" 
-        [min]="1" 
-        [max]="31" 
-        [showButtons]="true"
-        buttonLayout="horizontal"
-        inputStyleClass="w-full"
-        styleClass="w-full"
-        decrementButtonClass="p-button-secondary"
-        incrementButtonClass="p-button-secondary"
-        incrementButtonIcon="pi pi-plus"
-        decrementButtonIcon="pi pi-minus">
+      <p-inputNumber [(ngModel)]="registroFinanceiro.diaVencimento" [min]="1" [max]="31" [showButtons]="true"
+        buttonLayout="horizontal" inputStyleClass="w-full" styleClass="w-full" decrementButtonClass="p-button-secondary"
+        incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
       </p-inputNumber>
     </div>
 
     <div class="mb-3">
       <label for="txtParcelas" class="form-label">Digite o número de parcelas</label>
-      <p-inputNumber 
-        [(ngModel)]="registroFinanceiro.totalParcelas" 
-        [min]="1" 
-        [max]="10" 
-        [showButtons]="true"
-        buttonLayout="horizontal"
-        inputStyleClass="w-full"
-        styleClass="w-full"
-        decrementButtonClass="p-button-secondary"
-        incrementButtonClass="p-button-secondary"
-        incrementButtonIcon="pi pi-plus"
-        decrementButtonIcon="pi pi-minus">
+      <p-inputNumber [(ngModel)]="registroFinanceiro.totalParcelas" [min]="1" [max]="10" [showButtons]="true"
+        buttonLayout="horizontal" inputStyleClass="w-full" styleClass="w-full" decrementButtonClass="p-button-secondary"
+        incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
       </p-inputNumber>
     </div>
   </div>
 
   <ng-template pTemplate="footer">
-    <button pButton 
-            label="Gerar Fluxo" 
-            icon="pi pi-check" 
-            class="p-button-primary" 
-            (click)="gerarFluxo(); displayFinanceiro = false">
+    <button pButton label="Gerar Fluxo" icon="pi pi-check" class="p-button-primary"
+      (click)="gerarFluxo(); displayFinanceiro = false">
     </button>
-    <button pButton 
-            label="Cancelar" 
-            icon="pi pi-times" 
-            class="p-button-secondary" 
-            (click)="displayFinanceiro = false">
+    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary" (click)="displayFinanceiro = false">
     </button>
   </ng-template>
 </p-dialog>
@@ -331,14 +271,16 @@
     <!-- Corpo -->
     <ng-template pTemplate="body" let-ITEM>
       <tr>
-        <td [attr.data-label]="'ID'" >
+        <td [attr.data-label]="'ID'">
           {{ ITEM.id }}
           <i class="pi pi-info-circle ms-2" style="cursor: pointer; color: #007bff;" (click)="enviarDetalhes(ITEM)"></i>
         </td>
         <td [attr.data-label]="'Data do Pedido'" class="text-center">{{ ITEM.dataPedido | date:'dd/MM/yyyy' }}</td>
-        <td [attr.data-label]="'Nome Cliente'" >{{ ITEM.cliente.nome }}</td>
-        <td [attr.data-label]="'Valor Total'" class="text-center"><strong>{{ ITEM.valorTotal | currency:'BRL' }}</strong></td>
-        <td [attr.data-label]="'Valor Frete'"  class="text-center"><strong>{{ ITEM.valorFrete | currency:'BRL' }}</strong></td>
+        <td [attr.data-label]="'Nome Cliente'">{{ ITEM.cliente.nome }}</td>
+        <td [attr.data-label]="'Valor Total'" class="text-center"><strong>{{ ITEM.valorTotal | currency:'BRL'
+            }}</strong></td>
+        <td [attr.data-label]="'Valor Frete'" class="text-center"><strong>{{ ITEM.valorFrete | currency:'BRL'
+            }}</strong></td>
         <td [attr.data-label]="'Retirar'" class="text-center">
           @if (ITEM.retirar == 1) {
           <p-tag severity="success" value="Sim"></p-tag>
@@ -346,10 +288,10 @@
           <p-tag severity="danger" value="Não"></p-tag>
           }
         </td>
-        <td [attr.data-label]="'Observações'" >{{ ITEM.observacoes }}</td>
-        <td [attr.data-label]="'Status'" >
+        <td [attr.data-label]="'Observações'">{{ ITEM.observacoes }}</td>
+        <td [attr.data-label]="'Status'">
           <div class="d-flex justify-content-center gap-3 flex-wrap">
-           <!--  <div class="btn-group" role="group"> -->
+            <!--  <div class="btn-group" role="group"> -->
             <!-- NOVO -->
             <input type="radio" class="btn-check" [name]="'btnradio-' + ITEM.id" [id]="'btnradio1-' + ITEM.id"
               [checked]="ITEM.status == 1" (click)="alterarStatus(ITEM,1)">
@@ -398,8 +340,8 @@
             <label class="btn btn-outline-primary btn-lg" [for]="'btnradio7-' + ITEM.id" title="Cancelado">
               <i class="fas fa-window-close"></i>
             </label>
-            </div>
-           <!--  </div>  --> 
+          </div>
+          <!--  </div>  -->
         </td>
       </tr>
     </ng-template>

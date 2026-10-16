@@ -11,5 +11,6 @@ export class Pedido{
     public cliente!: Cliente;
     public status!: number;
     public retirar!: number
-    public valorFrete!: number
+    public valorFrete!: number;
+    enderecoEntrega?: any
 }
