@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiURL: "http://localhost:8080",
+  imageURL: 'http://localhost:8080/images',
 
   // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
