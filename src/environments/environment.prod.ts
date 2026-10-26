@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   apiURL: "https://projetoreal.dev.br:8443",
+  imageURL: "https://projetoreal.dev.br/assets/img",
 
   firebase : {
     apiKey: "AIzaSyAjt1KtbR8Nm2wMLagbOU5X_2kMHlyxOVA",
